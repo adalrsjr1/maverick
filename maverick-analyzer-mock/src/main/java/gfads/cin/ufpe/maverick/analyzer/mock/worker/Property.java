@@ -7,9 +7,8 @@ import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.MaverickSymptom;
 
 public abstract class Property {
-	private static final Logger LOG = LoggerFactory.getLogger(Property.class);
-	private ProcessingUnit processingUnit;
-	private String name;
+	protected ProcessingUnit processingUnit;
+	protected String name;
 	
 	public Property(String name, ProcessingUnit processingUnit) {
 		this.name = name;

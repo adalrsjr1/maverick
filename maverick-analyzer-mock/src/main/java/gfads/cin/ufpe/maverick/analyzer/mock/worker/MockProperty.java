@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.MaverickSymptom;
 
 @Component
@@ -18,6 +19,8 @@ public class MockProperty extends Property {
 	public void process(MaverickSymptom symptom) {
 		super.process(symptom);
 		LOG.error(symptom.toString());
+		MaverickChangeRequest changeRequest = new MaverickChangeRequest(name, symptom);
+		processingUnit.sendChangeRequest(changeRequest);
 	}
 	
 	

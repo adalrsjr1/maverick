@@ -143,5 +143,10 @@
 			<artifactId>maverick-events</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>gfads.cin.ufpe.maverick.ltl.core</groupId>
+			<artifactId>maverick-ltl-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

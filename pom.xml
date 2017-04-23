@@ -24,7 +24,6 @@
 		<module>./maverick-planner-file</module>
 		<module>./maverick-planner-mongo</module>
 		<module>./maverick-executor</module>
-    <module>maverick-ltl-core</module>
-  </modules>
+       </modules>
 
 </project>

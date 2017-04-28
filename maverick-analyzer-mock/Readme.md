@@ -1,26 +1,28 @@
 ### Processing Unit
 
-To create a custom Processing Unit:
+To create a new Processing Unit
 
-1. Make a copy of analyzer project, changing the name
-   ~~~
-    e.g.: maverick-analyzer-mock -> maverick-analyzer-MyProcessingUnit
-   ~~~
+1. Execute the following script into the project (folder) maverick-analyzer-mock
 
-2. Update the name of this new project in its in pom.xml
-   ~~~
-    <project>
-    ...
-        <artifactId>maverick-analyzer-mock</artifactId> -> <artifactId>maverick-analyzer-MyProcessingUnit</artifactId>
-    ...
-        <name>maverick-analyzer-mock</name> -> <name>maverick-analyzer-MyProcessingUnit</name> 
-    ... 
-    </project>
-   ~~~
+~~~
+$ manage-analyzer.sh <create> <name>
+~~~
 
-3. Implement a class like MockProperty.java (Mock is the property name)
-  + A ProcessingUnit must have only one Property;
-  + A property always receive a MavericSymptom;
-  + When a violation happens a MaverickChangeRequest must be sent to planner;
-  + Ideally, every property should be implemented in a new project and then added in the ProcessingUnit (copy) as a dependency.
+This script will create a new project named
+
+~~~
+maverick-analyzer-<name>
+~~~ 
+
+2. Implement a class like MockProperty.java (Mock is the property name)
+  * A ProcessingUnit must have only one Property;
+  * A property always receive a MavericSymptom;
+  * When a violation happens a MaverickChangeRequest must be sent to Planner;
+  * Ideally, every property should be implemented in a new project and then added into 
+    a  ProcessingUnit as a dependency.
     
+3. to delete a Processing Unit project, execute the script in folder maverick-analyzer-mock 
+
+~~~
+create-new-analyzer.sh <remove> <name>
+~~~

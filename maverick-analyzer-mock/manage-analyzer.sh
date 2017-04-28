@@ -1,8 +1,12 @@
 #!/bin/bash
 
-if [[ $# -ne 2 ]] ; then
-    echo "usage: create-new-analyzer <create|remove> <name>"
+function usage {
+	echo "usage: create-new-analyzer <create|remove> <name>"
     exit
+}
+
+if [[ $# -ne 2 ]] ; then
+    usage
 fi
 
 function create {
@@ -37,4 +41,6 @@ if [[ $1 = create ]] ; then
     create
 elif [[ $1 = remove ]] ; then
     remove 
+else
+	usage
 fi

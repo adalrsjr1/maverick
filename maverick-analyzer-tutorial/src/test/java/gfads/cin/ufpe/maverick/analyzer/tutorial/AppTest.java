@@ -1,4 +1,4 @@
-package gfads.cin.ufpe.maverick.ltl.core.maverick_analyzer_tutorial;
+package gfads.cin.ufpe.maverick.analyzer.tutorial;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

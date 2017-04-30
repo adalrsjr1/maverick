@@ -1,4 +1,4 @@
-package gfads.cin.ufpe.maverick.analyzer.mock.endpoint;
+package gfads.cin.ufpe.maverick.analyzer.endpoint;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

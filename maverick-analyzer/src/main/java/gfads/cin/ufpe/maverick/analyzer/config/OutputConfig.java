@@ -1,10 +1,10 @@
-package gfads.cin.ufpe.maverick.analyzer.mock.config;
+package gfads.cin.ufpe.maverick.analyzer.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import gfads.cin.ufpe.maverick.analyzer.mock.endpoint.Sender;
+import gfads.cin.ufpe.maverick.analyzer.endpoint.Sender;
 
 @Configuration
 public class OutputConfig {

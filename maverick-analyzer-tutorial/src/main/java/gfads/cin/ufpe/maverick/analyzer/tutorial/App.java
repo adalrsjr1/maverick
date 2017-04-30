@@ -1,16 +1,15 @@
-package gfads.cin.ufpe.maverick.analyzer.mock;
+package gfads.cin.ufpe.maverick.analyzer.tutorial;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
-public class Analyzer {
+public class App {
 	/*
-	 * --spring.rabbitmq.host=198.162.52.145 
-	 * --maverick.processing-unit.name=mock
+	 * --spring.rabbitmq.host=<rabbitmq address> 
+	 * --maverick.property.name=<property name>
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(Analyzer.class, args);
+		SpringApplication.run(App.class, args);
 	}
 }

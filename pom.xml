@@ -24,6 +24,7 @@
 		<module>./maverick-planner-file</module>
 		<module>./maverick-planner-mongo</module>
 		<module>./maverick-executor</module>
-       </modules>
+    <module>maverick-analyzer-tutorial</module>
+  </modules>
 
 </project>

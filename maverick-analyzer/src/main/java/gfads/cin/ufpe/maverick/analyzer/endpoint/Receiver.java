@@ -1,10 +1,10 @@
-package gfads.cin.ufpe.maverick.analyzer.mock.endpoint;
+package gfads.cin.ufpe.maverick.analyzer.endpoint;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import gfads.cin.ufpe.maverick.analyzer.mock.worker.ProcessingUnit;
+import gfads.cin.ufpe.maverick.analyzer.worker.ProcessingUnit;
 import gfads.cin.ufpe.maverick.events.MaverickSymptom;
 
 @Component

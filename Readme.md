@@ -8,7 +8,7 @@
 6. Create a new [Pull Request](https://help.github.com/articles/about-pull-requests/) in GitHub
 
 ** More Details About **
-* [Creating a Pull Request]https://help.github.com/articles/creating-a-pull-request/)
+* [Creating a Pull Request](https://help.github.com/articles/creating-a-pull-request/)
 * [Contributing to a GitHub project](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/)
 
 

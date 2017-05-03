@@ -9,7 +9,8 @@ interface LabeledTransitionSystem {
 	void init(StoredAutomaton storedAutomaton, TransitionChecker cheker)
 	
 	/**
-	 * Return TRUE if reach an acceptance state
+	 * Return a Violation event if reach an non-acceptance state
+	 * implementation based on spot monitors: https://spot.lrde.epita.fr/tut11.html
 	 * @param state Automata State
 	 * @param symptom Symptom to be evaluated
 	 * @return

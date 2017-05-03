@@ -43,10 +43,10 @@ public class ExecutorCore {
 	}
 	
 	public boolean doWork(MaverickChangePlan changePlan) throws Exception {
-		String action = changePlan.getAction();
+		String action = changePlan.getActionName();
 		Class<?> classToLoad = loadClass(action);
-		Method method = classToLoad.getDeclaredMethod("execute", Object.class);
+		Method method = classToLoad.getDeclaredMethod("execute", Object.class, Object.class);
 		Object instance = classToLoad.newInstance();
-		return (Boolean) method.invoke(instance, context);
+		return (Boolean) method.invoke(instance, context, changePlan.getAction());
 	}
 }

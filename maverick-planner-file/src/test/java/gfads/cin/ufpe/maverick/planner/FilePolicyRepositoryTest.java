@@ -6,7 +6,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -46,7 +48,9 @@ public class FilePolicyRepositoryTest extends TestCase {
 		
 		PolicyRepository repository = new FilePolicyRepositoryProxy(path.toString());;
 		MaverickChangeRequest request = new MaverickChangeRequest("changeRequest", null);
-		MaverickPolicy policy = new MaverickPolicy("changeRequest", "action", 0);
+		Map action = new HashMap();
+		action.put("name", "action");
+		MaverickPolicy policy = new MaverickPolicy("changeRequest", action, 0);
 		repository.storePolicy(policy);
 		
 		List<MaverickPolicy> policies = null;
@@ -76,12 +80,18 @@ public class FilePolicyRepositoryTest extends TestCase {
 		List<MaverickPolicy> policies = repository.fetchAdaptationPlans(request);
 		
 		assertTrue(policies.size() == 2);
-		assertEquals("action1", policies.get(0).getAction());
-		assertEquals("action2", policies.get(1).getAction());
+		
+		Map action1 = new HashMap();
+		action1.put("name", "action1");
+		Map action2 = new HashMap();
+		action2.put("name", "action2");
+		
+		assertEquals(action1, policies.get(0).getAction());
+		assertEquals(action2, policies.get(1).getAction());
 		
 		request = new MaverickChangeRequest("changeRequest2", null);
 		policies = repository.fetchAdaptationPlans(request);
-		assertEquals("action2", policies.get(0).getAction());
+		assertEquals(action2, policies.get(0).getAction());
 		assertEquals(10, policies.get(0).getPriority());
 	}
 	
@@ -102,6 +112,7 @@ public class FilePolicyRepositoryTest extends TestCase {
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void testReadPolicies() {
 		Path path = Paths.get("src/test/resources/testReadPolicies.json");
 		if(!Files.exists(path)) {
@@ -112,10 +123,22 @@ public class FilePolicyRepositoryTest extends TestCase {
 		List<MaverickPolicy> policies = repository.fetchAll();
 		
 		assertTrue(policies.size() == 4);
-		assertEquals("action0", policies.get(0).getAction());
-		assertEquals("action1", policies.get(1).getAction());
-		assertEquals("action2", policies.get(2).getAction());
-		assertEquals("action2", policies.get(3).getAction());
+		Map action0, action1, action2;
+		action0 = new HashMap();
+		action0.put("name", "action0");
+		action0.put("attr1", 1);
+		action0.put("attr2", 3.14);
+		action0.put("attr3", "value");
+		action1 = new HashMap();
+		action1.put("name", "action1");
+		action2 = new HashMap();
+		action2.put("name", "action2");
+		
+		assertEquals(action0, policies.get(0).getAction());
+		assertEquals(action0.get("attr2"), policies.get(0).getAction().get("attr2"));
+		assertEquals(action1, policies.get(1).getAction());
+		assertEquals(action2, policies.get(2).getAction());
+		assertEquals(action2, policies.get(3).getAction());
 		
 		assertEquals("changeRequest0", policies.get(0).getChangeRequest());
 		assertEquals("changeRequest1", policies.get(1).getChangeRequest());

@@ -1,6 +1,8 @@
 package gfads.cin.ufpe.maverick.executor;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import gfads.cin.ufpe.maverick.events.MaverickChangePlan;
 import gfads.cin.ufpe.maverick.events.MaverickPolicy;
@@ -22,9 +24,15 @@ public class ExecutorCoreTest extends TestCase {
 		assertEquals(cls.getSimpleName(), "HelloWorld");
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void testActionHelloWorld() throws Exception {
 		ExecutorCore core = new ExecutorCore(actionsFolder);
-		MaverickChangePlan changePlan = new MaverickChangePlan(new MaverickPolicy(null, "HelloWorld", 0), null);
+		Map action = new HashMap();
+		action.put("name", "HelloWorld");
+		action.put("attr1", 1);
+		action.put("attr2", 3.14);
+		action.put("attr3", "value");
+		MaverickChangePlan changePlan = new MaverickChangePlan(new MaverickPolicy(null, action, 0), null);
 		assertTrue(core.doWork(changePlan));
 	}
 }

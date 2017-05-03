@@ -1,5 +1,6 @@
 package gfads.cin.ufpe.maverick.events;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -23,8 +24,12 @@ public class MaverickChangePlan extends MaverickEvent implements Comparable<Mave
 		return policy;
 	}
 	
-	public String getAction() {
+	public Map getAction() {
 		return policy.getAction();
+	}
+	
+	public String getActionName() {
+		return (String) getAction().get("name");
 	}
 	
 	public long getElapsedTime(TimeUnit timeUnit) {

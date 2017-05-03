@@ -1,6 +1,7 @@
 package gfads.cin.ufpe.maverick.events;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -16,7 +17,7 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 	@JsonProperty("changeRequest")
 	private String changeRequest;
 	@JsonProperty("action")
-	private String action;
+	private Map action;
 	@JsonProperty("priority")
 	private int priority;
 
@@ -26,7 +27,7 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 	 * @param action
 	 */
 	public MaverickPolicy(@JsonProperty("changeRequest") String changeRequest,
-	               @JsonProperty("action") String action,
+	               @JsonProperty("action") Map action,
 	               @JsonProperty("priority") int priority) {
 		this.changeRequest = changeRequest;
 		this.action = action;
@@ -37,7 +38,7 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 		return changeRequest;
 	}
 
-	public String getAction() {
+	public Map getAction() {
 		return action;
 	}
 
@@ -78,7 +79,9 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 	@Override
 	public int compareTo(MaverickPolicy o) {
 		if(o.priority == priority) {
-			return action.compareTo(o.action);
+			String name1 = (String) action.get("name");
+			String name2 = (String) o.action.get("name");
+			return name1.compareTo(name2);
 		}
 		return Integer.compare(o.priority, priority);
 	}

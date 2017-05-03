@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class MaverickPolicyTest extends TestCase {
 	
 	public void testPolicySerialization() {
-		String json = "{\"changeRequest\":\"testChangeRequest\",\"action\":\"testAction\",\"priority\":5}";
+		String json = "{\"changeRequest\":\"testChangeRequest\",\"action\":{\"name\":\"testAction\",\"attr1\":1,\"attr2\":3.14,\"attr3\":\"value\"},\"priority\":5}";
 		
 		MaverickPolicy policy = MaverickPolicy.deserialize(json);
 		

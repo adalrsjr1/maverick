@@ -28,11 +28,6 @@ public class ContextImpl implements Context {
 	}
 
 	@Override
-	public boolean checkConsistency() {
-		return true;
-	}
-
-	@Override
 	public Object getEntry(String key) {
 		return storage.get(key);
 	}

@@ -4,6 +4,7 @@ public interface Context {
 
 	public boolean addEntry(String key, Object value);
 	public boolean removeEntry(String key);
+	public Object getEntry(String key);
 	public boolean checkConsistency();
 	
 }

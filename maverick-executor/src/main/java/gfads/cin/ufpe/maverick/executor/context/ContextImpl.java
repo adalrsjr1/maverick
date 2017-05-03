@@ -31,5 +31,10 @@ public class ContextImpl implements Context {
 	public boolean checkConsistency() {
 		return true;
 	}
+
+	@Override
+	public Object getEntry(String key) {
+		return storage.get(key);
+	}
 	
 }

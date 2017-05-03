@@ -32,6 +32,10 @@ public class MaverickChangePlan extends MaverickEvent implements Comparable<Mave
 		return (String) getAction().get("name");
 	}
 	
+	public Object getActionAttribute(String key) {
+		return getAction().get(key);
+	}
+	
 	public long getElapsedTime(TimeUnit timeUnit) {
 		return changeRequest.getElapsedTime(timeUnit);
 	}

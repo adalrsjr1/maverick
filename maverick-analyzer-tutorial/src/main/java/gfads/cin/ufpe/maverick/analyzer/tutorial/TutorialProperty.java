@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.MaverickSymptom;
+import gfads.cin.ufpe.maverick.ltl.core.NonViolationEvent;
 
 /*
  * All Property instantiation must have a @Component annotation and

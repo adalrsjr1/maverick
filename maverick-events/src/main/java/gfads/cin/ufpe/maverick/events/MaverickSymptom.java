@@ -29,7 +29,18 @@ public class MaverickSymptom extends MaverickEvent {
 	private Map<String,Object> logCache;
 
 	private MaverickSymptom() { }
+
+	private MaverickSymptom(String containerId, String containerName, String source, String log) {
+		this.containerId = containerId;
+		this.containerName = containerName;
+		this.source = source;
+		this.log = log;
+	}
 	
+	public static MaverickSymptom newMaverickSymptom(String containerId, String containerName, String source, String log) {
+		return new MaverickSymptom(containerId, containerName, source, log);
+	}
+
 	public static MaverickSymptom newMaverickSymptom(String json) {
 		json = json.replaceAll("\r", "");
 		ObjectMapper mapper = new ObjectMapper();

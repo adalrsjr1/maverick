@@ -7,5 +7,12 @@ import jhoafparser.storage.StoredState
 interface LabeledTransitionSystem {
 	StoredState getInitialState()
 	void init(StoredAutomaton storedAutomaton, TransitionChecker cheker)
-	boolean next(LabeledTransitionSystemState state, MaverickSymptom symptom)
+	
+	/**
+	 * Return TRUE if reach an acceptance state
+	 * @param state Automata State
+	 * @param symptom Symptom to be evaluated
+	 * @return
+	 */
+	LabeledTransitionSystemEvent next(LabeledTransitionSystemState state, MaverickSymptom symptom)
 }

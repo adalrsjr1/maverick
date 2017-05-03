@@ -10,10 +10,11 @@ import jhoafparser.storage.StoredState
 class LabeledTransitionSystemState {
 
 	private final String correlationIdMessage
-	private final Stopwatch watch;
+	private final Stopwatch watch
 
 	private boolean inAcceptanceState
-
+	private StoredState initialState
+	
 	StoredState automataState
 
 	public LabeledTransitionSystemState(String correlationIdMessage) {
@@ -21,10 +22,23 @@ class LabeledTransitionSystemState {
 		watch = Stopwatch.createUnstarted()
 	}
 	
+	public void reset() {
+		setInitialState(getInitialState())
+	}
+	
 	public boolean isInAcceptanceState() {
 		return automataState.getAccSignature() != null
 	}
+
+	public void setInitialState(StoredState state) {
+		initialState = state
+		setAutomataState(initialState);
+	}
 	
+	public StoredState getInitialState() {
+		return initialState
+	}
+		
 	public void setAutomataState(StoredState state) {
 		watch.reset()
 		automataState = state

@@ -6,6 +6,17 @@ import junit.framework.TestCase;
 
 public class MaverickSymptomTest extends TestCase {
 
+	public void testMaverickSymptomInstantiation() {
+		MaverickSymptom symptom1 = MaverickSymptom.newMaverickSymptom("container_id", "container_name", "source", "log");
+		byte[] serialized1 = symptom1.serialize();
+		
+		String json= "{\"container_id\":\"container_id\", \"container_name\":\"container_name\", \"source\":\"source\", \"log\":\"log\"}";
+		MaverickSymptom symptom2 = MaverickSymptom.newMaverickSymptom(json);
+		byte[] serialized2 = symptom2.serialize();
+		
+		assertEquals(MaverickSymptom.deserialize(serialized1), MaverickSymptom.deserialize(serialized2));
+	}
+	
 	public void testCurlHttpFluent() {
 		String json= "{\"container_id\":\"container_test\", \"container_name\":\"test_name\", \"source\":\"test_source\", \"log\":\"test_log\"}";
 		MaverickSymptom symptom = MaverickSymptom.newMaverickSymptom(json.getBytes());

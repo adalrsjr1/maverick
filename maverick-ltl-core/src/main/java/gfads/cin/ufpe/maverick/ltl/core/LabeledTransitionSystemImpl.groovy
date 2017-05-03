@@ -19,11 +19,11 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 	private TransitionChecker checker
 
 	@Override
-	public void init(StoredAutomaton storedAutomaton, TransitionChecker cheker) {
+	public void init(StoredAutomaton storedAutomaton, TransitionChecker checker) {
 		try{
 			LOCK.writeLock().lock()
 			this.storedAutomaton = storedAutomaton
-			this.checker = cheker
+			this.checker = checker
 		}
 		finally {
 			LOCK.writeLock().unlock()
@@ -31,11 +31,11 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 	}
 
 	@Override
-	public boolean next(LabeledTransitionSystemState state, MaverickSymptom symptom) {
+	public LabeledTransitionSystemEvent next(LabeledTransitionSystemState state, MaverickSymptom symptom) {
 		
 		try {
 			LOCK.readLock().lock()
-			return transition(state, symptom)
+			return LabeledTransitionSystemEventFactory.newEvent(transition(state, symptom))
 		}
 		finally {
 			LOCK.readLock().unlock()

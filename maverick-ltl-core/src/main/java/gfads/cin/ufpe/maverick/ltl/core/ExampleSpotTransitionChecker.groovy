@@ -2,7 +2,7 @@ package gfads.cin.ufpe.maverick.ltl.core
 
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
 
-class SpotTransitionChecker implements TransitionChecker {
+class ExampleSpotTransitionChecker implements TransitionChecker {
 
 	@Override
 	public boolean check(String transitionFormula, MaverickSymptom symptom) {
@@ -16,10 +16,11 @@ class SpotTransitionChecker implements TransitionChecker {
 		MaverickSymptom symptom = MaverickSymptom.newMaverickSymptom(json);
 		//container_name:.java(.)*
 
-		TransitionChecker checker = new SpotTransitionChecker()
+		TransitionChecker checker = new ExampleSpotTransitionChecker()
 		LabeledTransitionSystem lts = LabeledTransitionSystemFactory.create("G(((client:(.)*) && (.client(.)*)) ->F((client:(.)*) && (.java(.)*)))",checker)
+//		LabeledTransitionSystem lts = LabeledTransitionSystemFactory.create("!F(red & X(yellow))",checker)
 		LabeledTransitionSystemState state = new LabeledTransitionSystemState("");
-		state.setAutomataState(lts.getInitialState())
-		lts.next(state, symptom)
+		state.setInitialState(lts.getInitialState())
+		println lts.next(state, symptom)
 	}
 }

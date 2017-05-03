@@ -1,11 +1,11 @@
 package gfads.cin.ufpe.maverick.ltl.core
 
-import jhoafparser.parser.HOAFParser
-
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import jhoafparser.consumer.HOAConsumerPrint
 import jhoafparser.consumer.HOAConsumerStore
+import jhoafparser.parser.HOAFParser
 import jhoafparser.storage.StoredAutomaton
 
 class LabeledTransitionSystemFactory {
@@ -37,17 +37,22 @@ class LabeledTransitionSystemFactory {
 	}
 	
 	private static Process createProcessWin(String property) {
-		return new ProcessBuilder("bash", "-c", "ltl2tgba -B -D --lenient \'${property}\'").start()
+		// https://spot.lrde.epita.fr/ltl2tgba.html
+		return new ProcessBuilder("bash", "-c", "ltl2tgba -DGMC --lenient \'${property}\'").start()
 	}
 	
 	private static Process createProcessLinux(String property) {
-		return new ProcessBuilder("ltl2tgba", "-B", "-D", "--lenient", property).start()
+		// https://spot.lrde.epita.fr/ltl2tgba.html
+		return new ProcessBuilder("ltl2tgba", "-DGMC", "--lenient", property).start()
 	}
 	
 	private static StoredAutomaton createAutomaton(InputStream inputStream) {
 		if(!inputStream.available()) {
 			throw new RuntimeException("Impossible to create a StoredAutomaton -- HOA string is empty")
 		}
+//		To debug HOA created
+//		HOAConsumerPrint consumerPrint = new HOAConsumerPrint(System.out)
+//		HOAFParser.parseHOA(inputStream, consumerPrint)
 		
 		HOAConsumerStore consumerStore = new HOAConsumerStore()
 		HOAFParser.parseHOA(inputStream, consumerStore)

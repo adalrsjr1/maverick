@@ -107,7 +107,7 @@ enum ExpressionPattern {
 				case TemporalOccurrence.BEFORE_R : return "<>#3 -> (#2 -> (!#3 U (#1 & !#3))) U #3"
 				case TemporalOccurrence.AFTER_Q : return "[](#3 -> [](#2 -> <>#1))"
 				case TemporalOccurrence.BETWEEN_Q_AND_R : return "[]((#3 & !#4 & <>#4) -> (#2 -> (!#4 U (#1 & !#4))) U #4)"
-				case TemporalOccurrence.AFTER_Q_UNTIL_R : return "[](#3 & !#4 -> ((#2 -> (!#4 U (#1 & !#4))) W #4)"
+				case TemporalOccurrence.AFTER_Q_UNTIL_R : return "[](#3 & !#4 -> ((#2 -> (!#4 U (#1 & !#4))) W #4))"
 				default: return ""
 			}
 		}
@@ -131,7 +131,7 @@ enum ExpressionPattern {
 			switch(temporalProperty) {
 				case TemporalOccurrence.GLOBALLY : return "<>#3 -> (!#3 U (#1 & !#3 & ()(!#3 U #2)))"
 				case TemporalOccurrence.BEFORE_R : return "<>#4 -> (!#3 U (#4 | (#1 & !#3 & ()(!#3 U #2))))"
-				case TemporalOccurrence.AFTER_Q : return "([]!#4) | (!#4 U (#4 & <>#3 -> (!#3 U (#1 & !#3 & ()(!#3 U #2))))"
+				case TemporalOccurrence.AFTER_Q : return "([]!#4) | (!#4 U (#4 & <>#3 -> (!#3 U (#1 & !#3 & ()(!#3 U #2)))))"
 				case TemporalOccurrence.BETWEEN_Q_AND_R : return "[]((#4 & <>#5) -> (!#3 U (#5 | (#1 & !#3 & ()(!#3 U #2)))))"
 				case TemporalOccurrence.AFTER_Q_UNTIL_R : return "[](#4 -> (<>#3 -> (!#3 U (#5 | (#1 & !#3 & ()(!#3 U #2))))))"
 				default: return ""
@@ -142,9 +142,9 @@ enum ExpressionPattern {
 	PRECEDENCE_CHAIN_TWO {
 		String buildTemporalProperty(TemporalOccurrence temporalProperty) {
 			switch(temporalProperty) {
-				case TemporalOccurrence.GLOBALLY : return "(<>(#1 & ()<>#3)) -> ((!#1) U #2))"
+				case TemporalOccurrence.GLOBALLY : return "(<>(#1 & ()<>#3)) -> (((!#1) U #2))"
 				case TemporalOccurrence.BEFORE_R : return "<>#4 -> ((!(#1 & (!#4) & ()(!#4 U (#3 & !#4)))) U (#4 | #2))"
-				case TemporalOccurrence.AFTER_Q : return "([]!#4) | ((!#4) U (#4 & ((<>(#1 & ()<>#3)) -> ((!#1) U #2)))"
+				case TemporalOccurrence.AFTER_Q : return "([]!#4) | ((!#4) U (#4 & ((<>(#1 & ()<>#3)) -> ((!#1) U #2))))"
 				case TemporalOccurrence.BETWEEN_Q_AND_R : return "[]((#4 & <>#5) -> ((!(#1 & (!#5) & ()(!#5 U (#3 & !#5)))) U (#5 | #2)))"
 				case TemporalOccurrence.AFTER_Q_UNTIL_R : return "[](#4 -> (!(#1 & (!#5) & ()(!#5 U (#3 & !#5))) U (#5 | #2) | [](!(#1 & ()<>#3))))"
 				default: return ""

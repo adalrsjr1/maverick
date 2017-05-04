@@ -1,12 +1,14 @@
 package gfads.cin.ufpe.maverick.ltl.specpatterns;
 
+import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystemEventFactory
+import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystemFactory
 import groovy.util.GroovyTestCase
 
 class TestSpecpattern extends GroovyTestCase {
 
 	static final ExpressionVariable p = new ExpressionVariable("P")
 	static final ExpressionVariable q = new ExpressionVariable("Q")
-	static final ExpressionVariable r = new ExpressionVariable("R")
+	static final ExpressionVariable a = new ExpressionVariable("A")
 	static final ExpressionVariable s = new ExpressionVariable("S")
 	static final ExpressionVariable t = new ExpressionVariable("T")
 	static final ExpressionVariable z = new ExpressionVariable("Z")
@@ -14,7 +16,7 @@ class TestSpecpattern extends GroovyTestCase {
 	static final PropertyPattern pp = Property.create()
 
 	// http://patterns.projects.cs.ksu.edu/documentation/patterns/ltl.shtml
-	// spot parser recognize R (capital R) as an operator
+	// spot parser recognize A (capital A) as an operator
 
 	void testAbsencePisFalseGlobally() {
 		String ltl = pp.absence(p)
@@ -24,15 +26,17 @@ class TestSpecpattern extends GroovyTestCase {
 				.toString()
 
 		assert ltl == "[](!P)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testAbsencePisFalseBeforeR() {
+	void testAbsencePisFalseBeforeA() {
 		String ltl = pp.absence(p)
 				.isFalse()
-				.before(r)
+				.before(a)
 				.build()
 				.toString()
-		assert ltl == "<>R -> (!P U R)"
+		assert ltl == "<>A -> (!P U A)" 
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testAbsencePisFalseAfterQ() {
@@ -42,46 +46,59 @@ class TestSpecpattern extends GroovyTestCase {
 				.build()
 				.toString()
 		assert ltl == "[](Q -> [](!P))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testAbsencePisFalseBetweenQandR() {
+	void testAbsencePisFalseBetweenQandA() {
 		String ltl = pp.absence(p)
 				.isFalse()
 				.between(q)
-				.and(r)
+				.and(a)
 				.build()
 				.toString()
-		assert ltl == "[]((Q & !R & <>R) -> (!P U R))"
+		assert ltl == "[]((Q & !A & <>A) -> (!P U A))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testAbsencePisFalseStarAfterQuntilR() {
+	void testAbsencePisFalseStarAfterQuntilA() {
 		String ltl = pp.absence(p)
 				.isFalse()
 				.after(q)
-				.until(r)
+				.until(a)
 				.build()
 				.toString()
-		assert ltl == "[](Q & !R -> (!P W R))"
+		assert ltl == "[](Q & !A -> (!P W A))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testExistencePbecomesTrueGlobally() {
-		assert pp.existence(p).becomesTrue().globally().build().toString() == "<>(P)"
+		String ltl =  pp.existence(p).becomesTrue().globally().build().toString()
+		assert ltl == "<>(P)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testExistencePbecomesTrueStarBeforeR() {
-		assert pp.existence(p).becomesTrue().before(r).build().toString() == "!R W (P & !R)"
+	void testExistencePbecomesTrueStarBeforeA() {
+		String ltl =  pp.existence(p).becomesTrue().before(a).build().toString()
+		assert ltl =="!A W (P & !A)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testExistencePbecomesTrueAfterQ() {
-		assert pp.existence(p).becomesTrue().after(q).until(r).build().toString() == "[](Q & !R -> (!R U (P & !R)))"
+		String ltl =  pp.existence(p).becomesTrue().after(q).until(a).build().toString()
+		assert ltl == "[](Q & !A -> (!A U (P & !A)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testExistencePbecomesTrueStarBetweenQandR() {
-		assert pp.existence(p).becomesTrue().between(q).and(r).build().toString() == "[](Q & !R -> (!R W (P & !R)))"
+	void testExistencePbecomesTrueStarBetweenQandA() {
+		String ltl =  pp.existence(p).becomesTrue().between(q).and(a).build().toString()
+		assert ltl == "[](Q & !A -> (!A W (P & !A)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testExistencePbecomesTrueStartAfterQuntilR() {
-		assert pp.existence(p).becomesTrue().after(q).until(r).build().toString() == "[](Q & !R -> (!R U (P & !R)))"
+	void testExistencePbecomesTrueStartAfterQuntilA() {
+		String ltl =  pp.existence(p).becomesTrue().after(q).until(a).build().toString()
+		assert ltl == "[](Q & !A -> (!A U (P & !A)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testBoundedExistenceAtMost2Globally() {
@@ -92,183 +109,272 @@ class TestSpecpattern extends GroovyTestCase {
 				.toString()
 
 		assert ltl == "(!P W (P W (!P W (P W []!P))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testBoundedExistenceAtMost2BeforeR() {
-		assert pp.boundedExistence(p).occurs(2).before(r).build().toString() == "<>R -> ((!P & !R) U (R | ((P & !R) U (R | ((!P & !R) U (R | ((P & !R) U (R | (!P U R)))))))))"
+	void testBoundedExistenceAtMost2BeforeA() {
+		String ltl = pp.boundedExistence(p).occurs(2).before(a).build().toString()
+		assert ltl == "<>A -> ((!P & !A) U (A | ((P & !A) U (A | ((!P & !A) U (A | ((P & !A) U (A | (!P U A)))))))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testBoundedExistenceAtMost2AfterQ() {
-		assert pp.boundedExistence(p).occurs(2).justAfter(q).build().toString() == "<>Q -> (!Q U (Q & (!P W (P W (!P W (P W []!P))))))"
+		String ltl = pp.boundedExistence(p).occurs(2).justAfter(q).build().toString()
+		assert ltl == "<>Q -> (!Q U (Q & (!P W (P W (!P W (P W []!P))))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testBoundedExistenceAtMost2BetweenQandR() {
-		assert pp.boundedExistence(p).occurs(2).between(q).and(r).build().toString() == "[]((Q & <>R) -> ((!P & !R) U (R | ((P & !R) U (R | ((!P & !R) U (R | ((P & !R) U (R | (!P U R))))))))))"
+	void testBoundedExistenceAtMost2BetweenQandA() {
+		String ltl = pp.boundedExistence(p).occurs(2).between(q).and(a).build().toString()
+		assert ltl == "[]((Q & <>A) -> ((!P & !A) U (A | ((P & !A) U (A | ((!P & !A) U (A | ((P & !A) U (A | (!P U A))))))))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testBoundedExistenceAtMost2AfterQuntilR() {
-		assert pp.boundedExistence(p).occurs(2).after(q).until(r).build().toString() == "[](Q -> ((!P & !R) U (R | ((P & !R) U (R | ((!P & !R) U (R | ((P & !R) U (R | (!P W R) | []P)))))))))"
+	void testBoundedExistenceAtMost2AfterQuntilA() {
+		String ltl = pp.boundedExistence(p).occurs(2).after(q).until(a).build().toString()
+		assert ltl == "[](Q -> ((!P & !A) U (A | ((P & !A) U (A | ((!P & !A) U (A | ((P & !A) U (A | (!P W A) | []P)))))))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testUniversalityPisTrueGlobally() {
-		assert pp.universality(p).isTrue().globally().build().toString() == "[](P)"
+		String ltl = pp.universality(p).isTrue().globally().build().toString()
+		assert ltl == "[](P)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testUniversalityPisTrueBeforeR() {
-		assert pp.universality(p).isTrue().before(r).build().toString() == "<>R -> (P U R)"
+	void testUniversalityPisTrueBeforeA() {
+		String ltl = pp.universality(p).isTrue().before(a).build().toString()
+		assert ltl == "<>A -> (P U A)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testUniversalityPisTrueAfterQy() {
-		assert pp.universality(p).isTrue().justAfter(q).build().toString() == "[](Q -> [](P))"
+		String ltl = pp.universality(p).isTrue().justAfter(q).build().toString()
+		assert ltl == "[](Q -> [](P))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testUniversalityPisTrueBetweenQandR() {
-		assert pp.universality(p).isTrue().between(q).and(r).build().toString() == "[]((Q & !R & <>R) -> (P U R))"
+	void testUniversalityPisTrueBetweenQandA() {
+		String ltl = pp.universality(p).isTrue().between(q).and(a).build().toString()
+		assert ltl == "[]((Q & !A & <>A) -> (P U A))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testUniversalityPisTrueAfterQuntilR() {
-		assert pp.universality(p).isTrue().after(q).until(r).build().toString() == "[](Q & !R -> (P W R))"
+	void testUniversalityPisTrueAfterQuntilA() {
+		String ltl = pp.universality(p).isTrue().after(q).until(a).build().toString()
+		assert ltl == "[](Q & !A -> (P W A))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testSprecedesPGlobally() {
-		assert pp.precedence(s).precedes(p).globally().build().toString() == "!P W S"
+		String ltl = pp.precedence(s).precedes(p).globally().build().toString()
+		assert ltl == "!P W S"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testSprecedesPBeforeR() {
-		assert pp.precedence(s).precedes(p).before(r).build().toString() == "<>R -> (!P U (S | R))"
+	void testSprecedesPBeforeA() {
+		String ltl = pp.precedence(s).precedes(p).before(a).build().toString()
+		assert ltl == "<>A -> (!P U (S | A))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testSprecedesPAfterQ() {
-		assert pp.precedence(s).precedes(p).justAfter(q).build().toString() == "[]!Q | <>(Q & (!P W S))"
+		String ltl = pp.precedence(s).precedes(p).justAfter(q).build().toString()
+		assert ltl == "[]!Q | <>(Q & (!P W S))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testSprecedesPBetweenQandR() {
-		assert pp.precedence(s).precedes(p).between(q).and(r).build().toString() == "[]((Q & !R & <>R) -> (!P U (S | R)))"
+	void testSprecedesPBetweenQandA() {
+		String ltl = pp.precedence(s).precedes(p).between(q).and(a).build().toString()
+		assert ltl == "[]((Q & !A & <>A) -> (!P U (S | A)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testSprecedesPAfterQuntilR() {
-		assert pp.precedence(s).precedes(p).after(q).until(r).build().toString() == "[](Q & !R -> (!P W (S | R)))"
+	void testSprecedesPAfterQuntilA() {
+		String ltl = pp.precedence(s).precedes(p).after(q).until(a).build().toString()
+		assert ltl == "[](Q & !A -> (!P W (S | A)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testSrespondsToPGlobally() {
-		assert pp.response(s).respondsTo(p).globally().build().toString() == "[](P -> <>S)"
+		String ltl = pp.response(s).respondsTo(p).globally().build().toString()
+		assert ltl == "[](P -> <>S)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testSrespondsToPBeforeR() {
-		assert pp.response(s).respondsTo(p).before(r).build().toString() == "<>R -> (P -> (!R U (S & !R))) U R"
+	void testSrespondsToPBeforeA() {
+		String ltl = pp.response(s).respondsTo(p).before(a).build().toString()
+		assert ltl == "<>A -> (P -> (!A U (S & !A))) U A"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testSrespondsToPAfterQ() {
-		assert pp.response(s).respondsTo(p).justAfter(q).build().toString() == "[](Q -> [](P -> <>S))"
+		String ltl = pp.response(s).respondsTo(p).justAfter(q).build().toString()
+		assert ltl == "[](Q -> [](P -> <>S))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testSrespondsToPBetweenQandR() {
-		assert pp.response(s).respondsTo(p).between(q).and(r).build().toString() == "[]((Q & !R & <>R) -> (P -> (!R U (S & !R))) U R)"
+	void testSrespondsToPBetweenQandA() {
+		String ltl = pp.response(s).respondsTo(p).between(q).and(a).build().toString()
+		assert ltl == "[]((Q & !A & <>A) -> (P -> (!A U (S & !A))) U A)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testSrespondsToPAfterQuntilR() {
-		assert pp.response(s).respondsTo(p).after(q).until(r).build().toString() == "[](Q & !R -> ((P -> (!R U (S & !R))) W R)"
+	void testSrespondsToPAfterQuntilA() {
+		String ltl = pp.response(s).respondsTo(p).after(q).until(a).build().toString()
+		assert ltl == "[](Q & !A -> ((P -> (!A U (S & !A))) W A))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testS_TprecedesPGlobally() {
-		assert pp.precedenceChain(s,t).precedes(p).globally().build().toString() == "<>P -> (!P U (S & !P & ()(!P U T)))"
+		String ltl = pp.precedenceChain(s,t).precedes(p).globally().build().toString()
+		assert ltl == "<>P -> (!P U (S & !P & ()(!P U T)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TprecedesPBeforeR() {
-		assert pp.precedenceChain(s,t).precedes(p).before(r).build().toString() == "<>R -> (!P U (R | (S & !P & ()(!P U T))))"
+	void testS_TprecedesPBeforeA() {
+		String ltl = pp.precedenceChain(s,t).precedes(p).before(a).build().toString()
+		assert ltl == "<>A -> (!P U (A | (S & !P & ()(!P U T))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testS_TprecedesPAfterQ() {
-		assert pp.precedenceChain(s,t).precedes(p).justAfter(q).build().toString() == "([]!Q) | (!Q U (Q & <>P -> (!P U (S & !P & ()(!P U T))))"
+		String ltl = pp.precedenceChain(s,t).precedes(p).justAfter(q).build().toString()
+		assert ltl == "([]!Q) | (!Q U (Q & <>P -> (!P U (S & !P & ()(!P U T)))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TprecedesPBetweenQandR() {
-		assert pp.precedenceChain(s,t).precedes(p).between(q).and(r).build().toString() == "[]((Q & <>R) -> (!P U (R | (S & !P & ()(!P U T)))))"
+	void testS_TprecedesPBetweenQandA() {
+		String ltl = pp.precedenceChain(s,t).precedes(p).between(q).and(a).build().toString()
+		assert ltl == "[]((Q & <>A) -> (!P U (A | (S & !P & ()(!P U T)))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 
 	}
 
-	void testS_TprecedesPAfterQuntilR() {
-		assert pp.precedenceChain(s,t).precedes(p).after(q).until(r).build().toString() == "[](Q -> (<>P -> (!P U (R | (S & !P & ()(!P U T))))))"
+	void testS_TprecedesPAfterQuntilA() {
+		String ltl = pp.precedenceChain(s,t).precedes(p).after(q).until(a).build().toString()
+		assert ltl == "[](Q -> (<>P -> (!P U (A | (S & !P & ()(!P U T))))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testPprecedesS_TGlobally() {
-		assert pp.precedenceChain(p).precedes(s,t).globally().build().toString() == "(<>(S & ()<>T)) -> ((!S) U P))"
+		String ltl = pp.precedenceChain(p).precedes(s,t).globally().build().toString()
+		assert ltl == "(<>(S & ()<>T)) -> (((!S) U P))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testPprecedesS_TBeforeR() {
-		assert pp.precedenceChain(p).precedes(s,t).before(r).build().toString() == "<>R -> ((!(S & (!R) & ()(!R U (T & !R)))) U (R | P))"
+	void testPprecedesS_TBeforeA() {
+		String ltl = pp.precedenceChain(p).precedes(s,t).before(a).build().toString() 
+		assert ltl== "<>A -> ((!(S & (!A) & ()(!A U (T & !A)))) U (A | P))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testPprecedesS_TAfterQ() {
-		assert pp.precedenceChain(p).precedes(s,t).justAfter(q).build().toString() == "([]!Q) | ((!Q) U (Q & ((<>(S & ()<>T)) -> ((!S) U P)))"
+		String ltl = pp.precedenceChain(p).precedes(s,t).justAfter(q).build().toString()
+		assert ltl == "([]!Q) | ((!Q) U (Q & ((<>(S & ()<>T)) -> ((!S) U P))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testPprecedesS_TBetweenQandR() {
-		assert pp.precedenceChain(p).precedes(s,t).between(q).and(r).build().toString() == "[]((Q & <>R) -> ((!(S & (!R) & ()(!R U (T & !R)))) U (R | P)))"
+	void testPprecedesS_TBetweenQandA() {
+		String ltl = pp.precedenceChain(p).precedes(s,t).between(q).and(a).build().toString()
+		assert ltl == "[]((Q & <>A) -> ((!(S & (!A) & ()(!A U (T & !A)))) U (A | P)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testPprecedesS_TAfterQuntilR() {
-		assert pp.precedenceChain(p).precedes(s,t).after(q).until(r).build().toString() == "[](Q -> (!(S & (!R) & ()(!R U (T & !R))) U (R | P) | [](!(S & ()<>T))))"
+	void testPprecedesS_TAfterQuntilA() {
+		String ltl = pp.precedenceChain(p).precedes(s,t).after(q).until(a).build().toString()
+		assert ltl == "[](Q -> (!(S & (!A) & ()(!A U (T & !A))) U (A | P) | [](!(S & ()<>T))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testS_TrespondsPGlobally() {
-		assert pp.responseChain(s,t).respondsTo(p).globally().build().toString() == "[] (P -> <>(S & ()<>T))"
+		String ltl = pp.responseChain(s,t).respondsTo(p).globally().build().toString() 
+		assert ltl== "[] (P -> <>(S & ()<>T))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TrespondsPBeforeR() {
-		assert pp.responseChain(s,t).respondsTo(p).before(r).build().toString() == "<>R -> (P -> (!R U (S & !R & ()(!R U T)))) U R"
+	void testS_TrespondsPBeforeA() {
+		String ltl = pp.responseChain(s,t).respondsTo(p).before(a).build().toString()
+		assert ltl == "<>A -> (P -> (!A U (S & !A & ()(!A U T)))) U A"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testS_TrespondsPAfterQ() {
-		assert pp.responseChain(s,t).respondsTo(p).justAfter(q).build().toString() == "[] (Q -> [] (P -> (S & ()<> T)))"
+		String ltl = pp.responseChain(s,t).respondsTo(p).justAfter(q).build().toString()
+		assert ltl == "[] (Q -> [] (P -> (S & ()<> T)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TrespondsPBetweenQandR() {
-		assert pp.responseChain(s,t).respondsTo(p).between(q).and(r).build().toString() == "[] ((Q & <>R) -> (P -> (!R U (S & !R & ()(!R U T)))) U R)"
+	void testS_TrespondsPBetweenQandA() {
+		String ltl = pp.responseChain(s,t).respondsTo(p).between(q).and(a).build().toString()
+		assert ltl == "[] ((Q & <>A) -> (P -> (!A U (S & !A & ()(!A U T)))) U A)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TrespondsPAfterQuntilR() {
-		assert pp.responseChain(s,t).respondsTo(p).after(q).until(r).build().toString() == "[] (Q -> (P -> (!R U (S & !R & ()(!R U T)))) U (R | [] (P -> (S & ()<> T))))"
+	void testS_TrespondsPAfterQuntilA() {
+		String ltl = pp.responseChain(s,t).respondsTo(p).after(q).until(a).build().toString()
+		assert ltl == "[] (Q -> (P -> (!A U (S & !A & ()(!A U T)))) U (A | [] (P -> (S & ()<> T))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testPrespondsS_TGlobally() {
-		assert pp.responseChain(p).respondsTo(s,t).globally().build().toString() == "[] (S & ()<> T -> ()(<>(T & <> P)))"
+		String ltl = pp.responseChain(p).respondsTo(s,t).globally().build().toString()
+		assert ltl == "[] (S & ()<> T -> ()(<>(T & <> P)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testPrespondsS_TBeforeR() {
-		assert pp.responseChain(p).respondsTo(s,t).before(r).build().toString() == "<>R -> (S & ()(!R U T) -> ()(!R U (T & <> P))) U R"
+	void testPrespondsS_TBeforeA() {
+		String ltl = pp.responseChain(p).respondsTo(s,t).before(a).build().toString()
+		assert ltl == "<>A -> (S & ()(!A U T) -> ()(!A U (T & <> P))) U A"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testPrespondsS_TAfterQ() {
-		assert pp.responseChain(p).respondsTo(s,t).justAfter(q).build().toString() == "[] (Q -> [] (S & ()<> T -> ()(!T U (T & <> P))))"
+		String ltl = pp.responseChain(p).respondsTo(s,t).justAfter(q).build().toString()
+		assert ltl == "[] (Q -> [] (S & ()<> T -> ()(!T U (T & <> P))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testPrespondsS_TBetweenQandR() {
-		assert pp.responseChain(p).respondsTo(s,t).between(q).and(r).build().toString() == "[] ((Q & <>R) -> (S & ()(!R U T) -> ()(!R U (T & <> P))) U R)"
+	void testPrespondsS_TBetweenQandA() {
+		String ltl = pp.responseChain(p).respondsTo(s,t).between(q).and(a).build().toString()
+		assert ltl == "[] ((Q & <>A) -> (S & ()(!A U T) -> ()(!A U (T & <> P))) U A)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testPrespondsS_TAfterQuntilR() {
-		assert pp.responseChain(p).respondsTo(s,t).after(q).until(r).build().toString() == "[] (Q -> (S & ()(!R U T) -> ()(!R U (T & <> P))) U (R | [] (S & ()(!R U T) -> ()(!R U (T & <> P)))))"
+	void testPrespondsS_TAfterQuntilA() {
+		String ltl = pp.responseChain(p).respondsTo(s,t).after(q).until(a).build().toString()
+		assert ltl == "[] (Q -> (S & ()(!A U T) -> ()(!A U (T & <> P))) U (A | [] (S & ()(!A U T) -> ()(!A U (T & <> P)))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testS_TwithoutZrespondsToPGlobally() {
-		assert pp.constrainedChain(s,t).without(z).respondsTo(p).globally().build().toString() == "[] (P -> <>(S & !Z & ()(!Z U T)))"
+		String ltl = pp.constrainedChain(s,t).without(z).respondsTo(p).globally().build().toString()
+		assert ltl == "[] (P -> <>(S & !Z & ()(!Z U T)))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TwithoutZrespondsToPBeforeR() {
-		assert pp.constrainedChain(s,t).without(z).respondsTo(p).before(r).build().toString() == "<>R -> (P -> (!R U (S & !R & !Z & ()((!R & !Z) U T)))) U R"
+	void testS_TwithoutZrespondsToPBeforeA() {
+		String ltl = pp.constrainedChain(s,t).without(z).respondsTo(p).before(a).build().toString()
+		assert ltl == "<>A -> (P -> (!A U (S & !A & !Z & ()((!A & !Z) U T)))) U A"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 	void testS_TwithoutZrespondsToPAfterQ() {
-		assert pp.constrainedChain(s,t).without(z).respondsTo(p).justAfter(q).build().toString() == "[] (Q -> [] (P -> (S & !Z & ()(!Z U T))))"
+		String ltl = pp.constrainedChain(s,t).without(z).respondsTo(p).justAfter(q).build().toString()
+		assert ltl == "[] (Q -> [] (P -> (S & !Z & ()(!Z U T))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TwithoutZrespondsToPBetweenQandR() {
-		assert pp.constrainedChain(s,t).without(z).respondsTo(p).between(q).and(r).build().toString() == "[] ((Q & <>R) -> (P -> (!R U (S & !R & !Z & ()((!R & !Z) U T)))) U R)"
+	void testS_TwithoutZrespondsToPBetweenQandA() {
+		String ltl = pp.constrainedChain(s,t).without(z).respondsTo(p).between(q).and(a).build().toString()
+		assert ltl == "[] ((Q & <>A) -> (P -> (!A U (S & !A & !Z & ()((!A & !Z) U T)))) U A)"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
-	void testS_TwithoutZrespondsToPAfterQuntilR() {
-		assert pp.constrainedChain(s,t).without(z).respondsTo(p).after(q).until(r).build().toString() == "[] (Q -> (P -> (!R U (S & !R & !Z & ()((!R & !Z) U T)))) U (R | [] (P -> (S & !Z & ()(!Z U T)))))"
+	void testS_TwithoutZrespondsToPAfterQuntilA() {
+		String ltl = pp.constrainedChain(s,t).without(z).respondsTo(p).after(q).until(a).build().toString()
+		assert ltl == "[] (Q -> (P -> (!A U (S & !A & !Z & ()((!A & !Z) U T)))) U (A | [] (P -> (S & !Z & ()(!Z U T)))))"
+		assert LabeledTransitionSystemFactory.testProperty(ltl) == true
 	}
 
 }

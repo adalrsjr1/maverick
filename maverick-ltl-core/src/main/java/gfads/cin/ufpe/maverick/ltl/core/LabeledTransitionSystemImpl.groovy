@@ -54,6 +54,16 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 		}
 		
 	}
+	
+	@Override
+	public Iterable getStates() {
+		storedAutomaton.getStoredStates()	
+	}
+	
+	@Override
+	public Iterable getTransitions(StoredState state) {
+		storedAutomaton.getEdgesWithLabel(state.getStateId())
+	}
 
 	private boolean evaluate(BooleanExpression expression, MaverickSymptom symptom) {
 		BooleanExpression root = expression

@@ -17,4 +17,8 @@ interface LabeledTransitionSystem {
 	 * @return
 	 */
 	LabeledTransitionSystemEvent next(LabeledTransitionSystemState state, MaverickSymptom symptom)
+	
+	Iterable getTransitions(StoredState state)
+	
+	Iterable getStates()
 }

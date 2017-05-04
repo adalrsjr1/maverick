@@ -4,6 +4,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker
+import groovy.transform.CompileStatic
 import jhoafparser.consumer.HOAConsumerPrint
 import jhoafparser.consumer.HOAConsumerStore
 import jhoafparser.parser.HOAFParser
@@ -31,6 +32,18 @@ class LabeledTransitionSystemFactory {
 		LabeledTransitionSystem lts = LabeledTransitionSystemImpl.getInstance()
 		lts.init(storedAutomaton, checker)
 		return lts
+	}
+	
+	public static boolean testProperty(String ltlProperty) {
+		
+		try {
+			create(ltlProperty, null)
+			return true
+		}
+		catch(Exception e) {
+			System.err.println(e.getCause())
+			return false
+		}
 	}
 	
 	private static boolean isWin() {

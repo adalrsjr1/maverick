@@ -1,4 +1,4 @@
-package gfads.cin.ufpe.maverick.ltl.core
+package gfads.cin.ufpe.maverick.ltl.core.checker
 
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
 

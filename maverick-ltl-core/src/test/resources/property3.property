@@ -1,0 +1,8 @@
+//pp.boundedExistence(p).occurs(2).between(q).and(r).build().toString() == "[]((Q & <>R) -> ((!P & !R) U (R | ((P & !R) U (R | ((!P & !R) U (R | ((P & !R) U (R | (!P U R))))))))))"/
+
+property {
+	boundedExistence "p"
+	occurs 2
+	between "q"
+	and "r" // r must be in the same "and" line
+}

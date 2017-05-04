@@ -3,6 +3,7 @@ package gfads.cin.ufpe.maverick.ltl.core
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
+import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker
 import groovy.transform.CompileStatic
 import jhoafparser.ast.BooleanExpression
 import jhoafparser.storage.StoredAutomaton

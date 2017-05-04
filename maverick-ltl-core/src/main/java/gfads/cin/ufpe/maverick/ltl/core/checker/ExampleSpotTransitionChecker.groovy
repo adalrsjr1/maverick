@@ -1,6 +1,9 @@
-package gfads.cin.ufpe.maverick.ltl.core
+package gfads.cin.ufpe.maverick.ltl.core.checker
 
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
+import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystem
+import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystemFactory
+import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystemState
 
 class ExampleSpotTransitionChecker implements TransitionChecker {
 

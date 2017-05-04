@@ -3,6 +3,7 @@ package gfads.cin.ufpe.maverick.ltl.core
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker
 import jhoafparser.consumer.HOAConsumerPrint
 import jhoafparser.consumer.HOAConsumerStore
 import jhoafparser.parser.HOAFParser

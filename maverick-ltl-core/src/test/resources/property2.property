@@ -1,0 +1,15 @@
+/*
+If there are more than one property only 
+the last one is evaluated
+*/
+property {
+	absence "p"
+	isFalse
+	globally
+}
+
+property {
+	absence "q"
+	isFalse
+	globally
+}

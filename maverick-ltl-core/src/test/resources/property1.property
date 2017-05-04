@@ -1,0 +1,11 @@
+// should have only one property per file
+/*
+* any kind of java-comments are allowed
+*/
+property {
+	absence "p"
+	// comment-test
+	isFalse
+	/* yeees */
+	globally
+}

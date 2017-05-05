@@ -25,7 +25,7 @@ class LabeledTransitionSystemFactory {
 		process.waitForProcessOutput(out, outStream)
 		// logging error to create automaton
 		if(outStream.size() > 0) {
-			LOG.error(outStream.toString().replaceAll("\n",""))
+			LOG.error(outStream.toString().replaceAll("\n","").replace("  ",""))
 		} 
 		
 		StoredAutomaton storedAutomaton = createAutomaton(input)

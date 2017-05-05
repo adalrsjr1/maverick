@@ -1,5 +1,6 @@
 package gfads.cin.ufpe.maverick.ltl.core
 
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
@@ -18,7 +19,7 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 
 	private StoredAutomaton storedAutomaton
 	private TransitionChecker checker
-
+	
 	@Override
 	public void init(StoredAutomaton storedAutomaton, TransitionChecker checker) {
 		try{
@@ -63,6 +64,40 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 	@Override
 	public Iterable getTransitions(StoredState state) {
 		storedAutomaton.getEdgesWithLabel(state.getStateId())
+	}
+
+	@Override
+	public String getTransitionLabel(BooleanExpression booleanExpression) {
+		Map transitionLabels = [:]
+		transverseBooleanExpression(booleanExpression, storedAutomaton, transitionLabels)
+		String str = booleanExpression.toString()
+		
+		StringBuilder sb = new StringBuilder()
+		for(int i = 0; i < str.length(); i++) {
+			String idx = "${str.charAt(i)}"
+			if(transitionLabels.containsKey(idx)) {
+				sb.append(transitionLabels[idx])
+			}
+			else {
+				sb.append(idx)
+			}
+		}
+		
+		return sb.toString()
+	}
+	
+	private void transverseBooleanExpression(BooleanExpression exp, StoredAutomaton lts, Map map) {
+		BooleanExpression root = exp
+		if(root.left)
+			transverseBooleanExpression(root.left, lts, map)
+		if(root.right)
+			transverseBooleanExpression(root.right, lts, map)
+		if(!root.left && !root.right) {
+			if(!root.toString().equals("t")) {
+				int idx = Integer.parseInt(root.toString())
+				map[root.toString()] = storedAutomaton.storedHeader.APs[idx]
+			}
+		}
 	}
 
 	private boolean evaluate(BooleanExpression expression, MaverickSymptom symptom) {

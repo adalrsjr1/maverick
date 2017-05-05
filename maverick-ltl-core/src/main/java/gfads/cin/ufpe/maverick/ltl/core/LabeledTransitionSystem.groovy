@@ -2,6 +2,7 @@ package gfads.cin.ufpe.maverick.ltl.core
 
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
 import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker
+import jhoafparser.ast.BooleanExpression
 import jhoafparser.storage.StoredAutomaton
 import jhoafparser.storage.StoredState
 
@@ -21,4 +22,6 @@ interface LabeledTransitionSystem {
 	Iterable getTransitions(StoredState state)
 	
 	Iterable getStates()
+	
+	String getTransitionLabel(BooleanExpression booleanExpression)
 }

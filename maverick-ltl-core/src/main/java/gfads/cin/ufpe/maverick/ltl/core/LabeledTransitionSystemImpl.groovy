@@ -45,10 +45,23 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 	}
 	
 	@Override
-	public StoredState getInitialState() {
+	public StoredState getState(int label) {
 		try {
 			LOCK.readLock().lock()
-			return storedAutomaton.getStoredState(0)
+			return storedAutomaton.getStoredState(label)
+		}
+		finally {
+			LOCK.readLock().unlock()
+		}
+	}
+	
+	@Override
+	public StoredState getInitialState() {
+		Integer label = 0;
+		try {
+			LOCK.readLock().lock()
+			label = (Integer) storedAutomaton.getStoredHeader().getStartStates().flatten().first()
+			getState(label)
 		}
 		finally {
 			LOCK.readLock().unlock()

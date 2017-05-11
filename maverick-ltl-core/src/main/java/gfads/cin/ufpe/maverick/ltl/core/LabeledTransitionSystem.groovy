@@ -23,5 +23,7 @@ interface LabeledTransitionSystem {
 	
 	Iterable getStates()
 	
+	StoredState getState(int label)
+	
 	String getTransitionLabel(BooleanExpression booleanExpression)
 }

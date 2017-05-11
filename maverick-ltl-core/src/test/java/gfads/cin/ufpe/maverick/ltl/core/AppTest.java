@@ -24,9 +24,16 @@ public class AppTest extends TestCase {
 	// it checks that 'a' is the second action and an eventual 'b' or a global 'c' always happen or
 	// 'c' always happen
 	static final String PROPERTY_2 = "(Xa & Fb) | Gc";
+	
+	static final String PROPERTY_3 = "Fa->Gb";
 
 	static final NonViolationEvent nv = NonViolationEvent.getInstance();
 	static final ViolationEvent v = ViolationEvent.getInstance();
+	
+	public void testGetInitialStateProperty3() {
+		LabeledTransitionSystem lts = LabeledTransitionSystemFactory.create(PROPERTY_3, new PropertyChecker());
+		assertEquals(lts.getInitialState().getStateId(), 2);
+	}
 	
 	public void testViolationEvent() {
 		assertTrue(ViolationEvent.getInstance() instanceof ViolationEvent);

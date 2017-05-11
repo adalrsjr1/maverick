@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM adalrsjr1/maverick
 
 RUN mkdir -p /home/app
 

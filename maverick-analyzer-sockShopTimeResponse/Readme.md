@@ -1,0 +1,1 @@
+## SockShopTimeResponse property

@@ -9,12 +9,12 @@ import java.util.concurrent.TimeUnit;
 public class MaverickChangeRequest extends MaverickEvent {
 	private static final long serialVersionUID = -3297778122994192136L;
 
-	private MaverickSymptom symptom;
+	private IMaverickSymptom symptom;
 	private String name;
 	
 	private Map<String, Serializable> metadata;
 	
-	public MaverickChangeRequest(String name, MaverickSymptom symptom) {
+	public MaverickChangeRequest(String name, IMaverickSymptom symptom) {
 		metadata = new HashMap<>();
 		this.symptom = symptom;
 		this.name = name;
@@ -43,7 +43,7 @@ public class MaverickChangeRequest extends MaverickEvent {
 		return name;
 	}
 	
-	public MaverickSymptom getSymptom() {
+	public IMaverickSymptom getSymptom() {
 		return symptom;
 	}
 	

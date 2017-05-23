@@ -12,27 +12,26 @@ import gfads.cin.ufpe.maverick.analyzer.endpoint.Receiver;
 
 @Configuration
 public class InputConfig {
-	
+
 	public static final String EXCHANGE_NAME = "fluentd.fanout"; 
 
 	@Bean
-	public FanoutExchange exchange() {
+	public FanoutExchange fanout() {
 		return new FanoutExchange(EXCHANGE_NAME);
 	}
-	
+
 	@Bean
 	public Queue queue() {
 		return new AnonymousQueue();
 	}
-	
+
 	@Bean
-	public Binding binding(FanoutExchange exchange, Queue queue) {
-		return BindingBuilder.bind(queue).to(exchange);
+	public Binding binding(FanoutExchange fanout, Queue queue) {
+		return BindingBuilder.bind(queue).to(fanout);
 	}
-	
+
 	@Bean
 	public Receiver receiver() {
 		return new Receiver();
 	}
-
 }

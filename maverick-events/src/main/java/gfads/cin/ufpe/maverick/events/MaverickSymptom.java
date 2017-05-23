@@ -1,9 +1,6 @@
 package gfads.cin.ufpe.maverick.events;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -13,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class MaverickSymptom extends MaverickEvent {
+public class MaverickSymptom extends MaverickEvent implements IMaverickSymptom {
 
 	private static final long serialVersionUID = -2345252892630650139L;
 
@@ -57,37 +54,18 @@ public class MaverickSymptom extends MaverickEvent {
 		return newMaverickSymptom(new String(jsonSerialized));
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#get(java.lang.String)
+	 */
+//	@Override
 	public Object get(String property) {
-		Method methods[] = this.getClass().getMethods();
-		Method method = Arrays.asList(methods).stream()
-		                      .filter(m -> m.getName().equalsIgnoreCase("get"+property))
-		                      .findFirst()
-		                      .orElse(null);
-		
-		if(Objects.nonNull(method)) {
-			try {
-				return method.invoke(this, null);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		Map<String, Object> logMap = getLogAsMap();
-		if(!logMap.isEmpty()) {
-			Object result = logMap.get(property);
-			if(Objects.isNull(result)) {
-				Object message = getLogMessage();
-				if(message instanceof Map) {
-					return ((Map<String, Object>) message).get(property);
-				}
-			}
-			return result;
-		}
-		                      
-		return null;
+		return IMaverickSymptom.super.get(property);
 	}
 	
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getElapsedTime(java.util.concurrent.TimeUnit)
+	 */
+	@Override
 	public long getElapsedTime(TimeUnit timeUnit) {
 		try {
 			return timeUnit.convert(System.currentTimeMillis()-(Long) get("timeMillis"), TimeUnit.MILLISECONDS);
@@ -97,18 +75,34 @@ public class MaverickSymptom extends MaverickEvent {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getContainerId()
+	 */
+	@Override
 	public String getContainerId() {
 		return containerId;
 	}
 
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getContainerName()
+	 */
+	@Override
 	public String getContainerName() {
 		return containerName;
 	}
 
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getSource()
+	 */
+	@Override
 	public String getSource() {
 		return source;
 	}
 
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getLog()
+	 */
+	@Override
 	public String getLog() {
 		return log;
 	}
@@ -123,6 +117,10 @@ public class MaverickSymptom extends MaverickEvent {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getLogAsMap()
+	 */
+	@Override
 	public Map<String, Object> getLogAsMap() {
 		if(Objects.nonNull(logCache)) {
 			return logCache;
@@ -141,6 +139,10 @@ public class MaverickSymptom extends MaverickEvent {
 		return Objects.nonNull(logCache) ? logCache : new HashMap<String, Object>();
 	}
 	
+	/* (non-Javadoc)
+	 * @see gfads.cin.ufpe.maverick.events.IMaverickInterfave#getLogMessage()
+	 */
+	@Override
 	public Object getLogMessage() {
 		String message = (String) getLogAsMap().get("message");
 		ObjectMapper mapper = new ObjectMapper();
@@ -167,7 +169,7 @@ public class MaverickSymptom extends MaverickEvent {
 		if(o == this) return true;
 		if(! (o instanceof MaverickSymptom)) return false;
 		
-		MaverickSymptom symptom = (MaverickSymptom) o;
+		IMaverickSymptom symptom = (IMaverickSymptom) o;
 		
 		return Objects.equals(containerId, symptom.getContainerId())
 			   && Objects.equals(containerName, symptom.getContainerName())

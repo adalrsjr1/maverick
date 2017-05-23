@@ -1,6 +1,6 @@
 package gfads.cin.ufpe.maverick.ltl.core.checker
 
-import gfads.cin.ufpe.maverick.events.MaverickSymptom
+import gfads.cin.ufpe.maverick.events.IMaverickSymptom
 
 /**
  * The implmentation of this interface must be thread-safe!
@@ -19,5 +19,5 @@ interface TransitionChecker {
 	 * @param symptom
 	 * @return
 	 */
-	boolean check(String transitionFormula, MaverickSymptom symptom)
+	boolean check(String transitionFormula, IMaverickSymptom symptom)
 }

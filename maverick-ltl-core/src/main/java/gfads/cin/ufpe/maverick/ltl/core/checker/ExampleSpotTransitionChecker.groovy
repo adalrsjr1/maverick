@@ -1,5 +1,6 @@
 package gfads.cin.ufpe.maverick.ltl.core.checker
 
+import gfads.cin.ufpe.maverick.events.IMaverickSymptom
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
 import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystem
 import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystemFactory
@@ -8,7 +9,7 @@ import gfads.cin.ufpe.maverick.ltl.core.LabeledTransitionSystemState
 class ExampleSpotTransitionChecker implements TransitionChecker {
 
 	@Override
-	public boolean check(String transitionFormula, MaverickSymptom symptom) {
+	public boolean check(String transitionFormula, IMaverickSymptom symptom) {
 		print "formula: $transitionFormula  Symptom: ${symptom.getContainerName()} "
 		println  symptom.getContainerName() ==~ transitionFormula
 		return symptom.getContainerName() ==~ transitionFormula

@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
+import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
-import gfads.cin.ufpe.maverick.events.MaverickSymptom;
 import gfads.cin.ufpe.maverick.ltl.core.NonViolationEvent;
 
 /*
@@ -32,7 +32,7 @@ public class TutorialProperty extends Property {
 	 * change request to Planner. To send a requect it should call
 	 * sendChangeRequest(changeRequest)
 	 */
-	public void process(MaverickSymptom symptom) {
+	public void process(IMaverickSymptom symptom) {
 		LOG.info(">>> [property {}]: {}", super.name, symptom);
 		MaverickChangeRequest changeRequest = new MaverickChangeRequest(name, symptom);
 		sendChangeRequest(changeRequest);

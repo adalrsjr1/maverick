@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gfads.cin.ufpe.maverick.analyzer.endpoint.Sender;
+import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
-import gfads.cin.ufpe.maverick.events.MaverickSymptom;
 
 @Component
 public class ProcessingUnit {
@@ -17,7 +17,7 @@ public class ProcessingUnit {
 	
 	public ProcessingUnit() { }
 	
-	public void doWork(MaverickSymptom symptom) {
+	public void doWork(IMaverickSymptom symptom) {
 		property.process(symptom);
 	}
 	

@@ -57,7 +57,7 @@ services:
       - maverick-logging
     ports:
       - "15672:15672"
-      - "5672:55672"
+      - "5672:5672"
 
 volumes:
   data-volume:

@@ -3,7 +3,7 @@ package gfads.cin.ufpe.maverick.ltl.core
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantReadWriteLock
 
-import gfads.cin.ufpe.maverick.events.MaverickSymptom
+import gfads.cin.ufpe.maverick.events.IMaverickSymptom
 import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker
 import groovy.transform.CompileStatic
 import jhoafparser.ast.BooleanExpression
@@ -33,7 +33,7 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 	}
 
 	@Override
-	public LabeledTransitionSystemEvent next(LabeledTransitionSystemState state, MaverickSymptom symptom) {
+	public LabeledTransitionSystemEvent next(LabeledTransitionSystemState state, IMaverickSymptom symptom) {
 		
 		try {
 			LOCK.readLock().lock()
@@ -113,7 +113,7 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 		}
 	}
 
-	private boolean evaluate(BooleanExpression expression, MaverickSymptom symptom) {
+	private boolean evaluate(BooleanExpression expression, IMaverickSymptom symptom) {
 		BooleanExpression root = expression
 		boolean leftResult = null, rightResult = null, result = true
 		if(expression.left != null)
@@ -149,7 +149,7 @@ class LabeledTransitionSystemImpl implements LabeledTransitionSystem {
 		return result
 	}
 
-	private boolean transition(LabeledTransitionSystemState state, MaverickSymptom symptom) {
+	private boolean transition(LabeledTransitionSystemState state, IMaverickSymptom symptom) {
 		StoredState currentState = state.getAutomataState()
 		def transitions = storedAutomaton.getEdgesWithLabel(currentState.getStateId())
 

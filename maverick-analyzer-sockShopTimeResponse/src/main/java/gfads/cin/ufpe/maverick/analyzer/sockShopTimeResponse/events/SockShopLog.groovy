@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.concurrent.ConcurrentHashMap.MapEntry
 
 import com.google.common.base.Strings 
-
+import gfads.cin.ufpe.maverick.events.Log
 import gfads.cin.ufpe.maverick.events.MaverickSymptom
 import groovy.json.JsonException
 import groovy.json.JsonSlurper
@@ -18,19 +18,26 @@ import groovy.json.JsonSlurper
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 
-class SockShopLog {
+class SockShopLog implements Log {
+	public static final EMPTY_SOCK_SHOP_LOG = new SockShopLog("")
+	
 	@JsonProperty("timestamp")
 	private long timestamp = -1L
 	@JsonProperty("logLevel")
 	private String logLevel = ""
 	@JsonProperty("className")
 	private String className = ""
+	@JsonProperty("httpLog")
+	private HttpLog httpLog = HttpLog.EMPTY_HTTP_LOG
 	
 	@JsonProperty("text")
 	private String text = ""
 	
 	public SockShopLog(String text) {
-		this.text = text
+		this.text = sanitizeColor(text)
+		if(isHttpRequest(this.text)) {
+			httpLog = new HttpLog(this.text)
+		}
 		splitLogMessage(this.text)
 		
 	}
@@ -43,7 +50,7 @@ class SockShopLog {
 		int count = 1
 		String aux = ""
 		def result = text.split(/\s+/).each { token ->
-			String s = sanitizeColor(token)
+			String s = token
 			if(isDate(s)) {
 				aux += s + " "
 			}
@@ -53,14 +60,14 @@ class SockShopLog {
 			else if(isClassName(s)) {
 				className = s
 			}
+			
 		}
 		timestamp = dateStrToLong(aux)
 		return result
 	}
 	
 	private String sanitizeColor(String token) {
-		String[] s = token.split(/(\u001b\[[0-9]+m){1}/)
-		return s.length > 1 ? s[1] : s[0] 
+		token.replaceAll(/(\u001b\[[0-9]+m){1}/,"")
 	}
 	
 	private boolean isDate(String token) {
@@ -85,7 +92,11 @@ class SockShopLog {
 	}
 	
 	private boolean isClassName(String token) {
-		token.matches(/\s*(\w\.)+\w+\s*/)
+		token.matches(/\s*(\D\.)+\D+\s*/)
+	}
+	
+	private boolean isHttpRequest(String token) {
+		token.matches(/(GET|POST|PUT|DELETE)\s[\/a-z?_0-9-\.=&]+\s[0-9]{3}.+/)
 	}
 	
 	private Long dateStrToLong(String token) {
@@ -116,15 +127,23 @@ class SockShopLog {
 	public String getText() {
 		return text;
 	}
+	
+	public HttpLog getHttpLog() {
+		return httpLog
+	}
 
 	public Map getLogAsMap() {
 		this.class.declaredFields.findAll { !it.synthetic }.inject([:]) { result, entry ->
-			result[ (entry.name) ] = this."$entry.name" 
+			if(entry.name != "EMPTY_SOCK_SHOP_LOG") {
+				result[ (entry.name) ] = this."$entry.name" 
+			}
 			result
 	    }
 	}
 	
-	public def get(String property) {
+	@Override
+	public Object get(String property) {
+		if(property == "") return null
 		def methods = this.getClass().getMethods()
 		Method method = methods.find { m ->
 			m.getName().equalsIgnoreCase("get"+property)
@@ -133,23 +152,22 @@ class SockShopLog {
 		if(Objects.nonNull(method)) {
 			try {
 				return method.invoke(this, null)
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (Exception e) {
 				e.printStackTrace()
 			}
 		}
 		
-		return null
+		return httpLog.get(property)
 	}
 
 	@Override
 	public String toString() {
-		return "SockShopLog [timestamp=" + timestamp + ", logLevel=" + logLevel + ", className=" + className + ", text="
-				+ text + "]";
+		return "SockShopLog [timestamp=" + timestamp + ", logLevel=" + logLevel + ", className=" + className + ", httpLog=" + httpLog + ", text=" + text + "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(timestamp, className, logLevel, text);
+		return Objects.hash(timestamp, className, logLevel, text, http);
 	}
 
 	@Override
@@ -162,6 +180,7 @@ class SockShopLog {
 		Objects.equals(timestamp, sockShopLog.timestamp) &&
 	    Objects.equals(className, sockShopLog.className) &&
 		Objects.equals(logLevel, sockShopLog.logLevel) &&
-		Objects.equals(text, sockShopLog.text)
+		Objects.equals(text, sockShopLog.text) &&
+		Objects.equals(httpLog, sockShopLog.httpLog)
 	}
 }

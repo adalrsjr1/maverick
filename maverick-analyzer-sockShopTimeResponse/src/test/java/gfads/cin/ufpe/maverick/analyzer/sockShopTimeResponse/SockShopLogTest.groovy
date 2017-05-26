@@ -2,12 +2,15 @@ package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse;
 
 import static org.junit.Assert.*
 
+import java.util.Currency.CurrencyNameGetter
+
 import org.junit.Test
 
+import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.HttpLog
 import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.SockShopLog
 
 class SockShopLogTest {
-	final static SockShopLog log = new SockShopLog()
+	final static SockShopLog log = new SockShopLog("")
 	@Test
 	public void testSanitizeToken() {
 		assert log.sanitizeColor("GET") == "GET"
@@ -16,6 +19,12 @@ class SockShopLogTest {
 		assert log.sanitizeColor("\u001b[32m200") == "200"
 		assert log.sanitizeColor("5.693") == "5.693"
 		assert log.sanitizeColor("\u001b[0m5.693") == "5.693"
+	}
+	
+	@Test
+	public void testSanitizeHttpToken() {
+		assert log.sanitizeColor("\u001b[0mGET /catalogue?sort=id&size=3&tags=sport \u001b[32m200 \u001b[0m2.572 ms - -\u001b[0m") ==
+			"GET /catalogue?sort=id&size=3&tags=sport 200 2.572 ms - -"
 	}
 
 	@Test
@@ -30,6 +39,12 @@ class SockShopLogTest {
 	public void testDateStrToLong() {
 		assert log.dateStrToLong("2017-05-19 20:49:13.699  ") == 1495183753699
 		assert log.dateStrToLong("2017-05-19 20:49:13.699") == 1495183753699
+	}
+	
+	@Test
+	public void testIsHttp() {
+		assert true == log.isHttpRequest(log.sanitizeColor("\u001b[0mGET /catalogue?sort=id&size=3&tags=sport \u001b[32m200 \u001b[0m2.572 ms - -\u001b[0m"))
+		assert true == log.isHttpRequest(log.sanitizeColor("\u001b[0mGET /catalogue/images/cross_2.jpeg \u001b[32m200 \u001b[0m1.151 ms - 33687\u001b[0m"))
 	}
 	
 	@Test
@@ -92,7 +107,7 @@ class SockShopLogTest {
 	}
 	
 	@Test
-	public void testCreateSockShopSymptom() {
+	public void testCreateSockShopLog() {
 		SockShopLog l2 = new SockShopLog("2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)")
 		assert l2.text == "2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)"
 		assert l2.timestamp == 1495183753699
@@ -101,21 +116,46 @@ class SockShopLogTest {
 	}
 	
 	@Test
+	public void testCreateSockShopLog2() {
+		SockShopLog l = new SockShopLog("\u001b[0mGET /catalogue?sort=id&size=3&tags=sport \u001b[32m200 \u001b[0m2.572 ms - -\u001b[0m")
+		assert l.text == "GET /catalogue?sort=id&size=3&tags=sport 200 2.572 ms - -"
+		assert l.timestamp == -1L
+		assert l.logLevel == ""
+		assert l.className == ""
+		assert l.httpLog != null
+		assert l.get("method") == "GET"
+		assert l.get("path") == "/catalogue"
+		assert l.get("responseCode") == 200
+		assert l.get("responseTime") == 2.572f
+		assert l.get("params") == [sort:"id", size:"3", tags:"sport"]
+	}
+	
+	@Test
 	public void testLogAsMap() {
 		SockShopLog l2 = new SockShopLog("2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)")
 		
-		assert l2.getLogAsMap() == [className: "s.b.c.e.t.TomcatEmbeddedServletContainer",
-									timestamp: 1495183753699,
+		def m = [timestamp: 1495183753699,
 									logLevel: "INFO",
-									text: "2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)"]		
+									className: "s.b.c.e.t.TomcatEmbeddedServletContainer",
+									httpLog: HttpLog.EMPTY_HTTP_LOG,
+									text: "2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)",
+									]
+
+		assert l2.getLogAsMap()['httpLog'] == m['httpLog']
+		assert l2.getLogAsMap() == m
+				
 	}
 	
 	@Test
 	public void testGet() {
 		SockShopLog l2 = new SockShopLog("2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)")
 		assert l2.get("timestamp") == 1495183753699
+		assert l2.get("") == null
 		assert l2.get("className") == "s.b.c.e.t.TomcatEmbeddedServletContainer"
 		assert l2.get("logLevel") == "INFO"
 		assert l2.get("text") == "2017-05-19 20:49:13.699 INFO [orders,,,] 6 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)"
+		assert l2.get("asd") == null
+		assert l2.get("responseTime") == -1
+		assert l2.get("httpLog") == HttpLog.EMPTY_HTTP_LOG
 	}
 }

@@ -24,12 +24,17 @@ public class SockShopTimeResponsePropertyConfig {
 	}
 	
 	@Bean
+	public Integer offset(@Value("${maverick.property.offset}") Integer offset) {
+		return offset;
+	}
+	
+	@Bean
 	/**
 	 * Instantiate a property with the name already instantiated
 	 * @param name
 	 * @return
 	 */
-	public Property property(String name) {
-		return new SockShopTimeResponseProperty(name);
+	public Property property(String name, Integer offset) {
+		return new SockShopTimeResponseProperty(name, offset);
 	}
 }

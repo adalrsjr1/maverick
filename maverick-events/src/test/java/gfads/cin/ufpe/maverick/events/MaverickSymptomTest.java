@@ -17,7 +17,6 @@ public class MaverickSymptomTest extends TestCase {
 		assertEquals(MaverickSymptom.deserialize(serialized1), MaverickSymptom.deserialize(serialized2));
 	}
 	
-
 	public void testCurlHttpFluent() {
 		String json= "{\"container_id\":\"container_test\", \"container_name\":\"test_name\", \"source\":\"test_source\", \"log\":\"test_log\"}";
 		MaverickSymptom symptom = MaverickSymptom.newMaverickSymptom(json.getBytes());

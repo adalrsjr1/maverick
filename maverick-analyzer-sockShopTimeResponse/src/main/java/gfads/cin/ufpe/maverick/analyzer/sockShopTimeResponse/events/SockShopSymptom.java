@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
+import gfads.cin.ufpe.maverick.events.Log;
 import gfads.cin.ufpe.maverick.events.MaverickEvent;
 import gfads.cin.ufpe.maverick.events.MaverickSymptom;
 
@@ -23,7 +24,8 @@ public class SockShopSymptom extends MaverickEvent implements IMaverickSymptom {
 
 	private SockShopSymptom(IMaverickSymptom symptom) {
 		this.symptom = symptom;
-		log = new SockShopLog((String) this.symptom.getLog());
+		String logMsg = this.symptom.getLog().toString();
+		log = new SockShopLog(logMsg);
 	}
 	
 	public static SockShopSymptom newSockShopSymptom(IMaverickSymptom symptom) {
@@ -56,7 +58,7 @@ public class SockShopSymptom extends MaverickEvent implements IMaverickSymptom {
 	}
 
 	@Override
-	public Object getLog() {
+	public Log getLog() {
 		return log;
 	}
 
@@ -67,7 +69,7 @@ public class SockShopSymptom extends MaverickEvent implements IMaverickSymptom {
 
 	@Override
 	public String getLogMessage() {
-		return (String) symptom.getLog();
+		return symptom.getLog().toString();
 	}
 
 	@Override

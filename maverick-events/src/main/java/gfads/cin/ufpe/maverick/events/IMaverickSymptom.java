@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public interface IMaverickSymptom {
+public interface IMaverickSymptom extends Log {
 
 	default public Object get(String property) {
 		Method methods[] = this.getClass().getMethods();
@@ -23,19 +23,13 @@ public interface IMaverickSymptom {
 				e.printStackTrace();
 			}
 		}
+
+		Object log = getLog();
 		
-		Map<String, Object> logMap = getLogAsMap();
-		if(!logMap.isEmpty()) {
-			Object result = logMap.get(property);
-			if(Objects.isNull(result)) {
-				Object message = getLogMessage();
-				if(message instanceof Map) {
-					return ((Map<String, Object>) message).get(property);
-				}
-			}
-			return result;
+		if(log instanceof Log) {
+			return ((Log) log).get(property);
 		}
-		                      
+		
 		return null;
 	}
 
@@ -52,5 +46,5 @@ public interface IMaverickSymptom {
 	Map<String, Object> getLogAsMap();
 
 	Object getLogMessage();
-
+	
 }

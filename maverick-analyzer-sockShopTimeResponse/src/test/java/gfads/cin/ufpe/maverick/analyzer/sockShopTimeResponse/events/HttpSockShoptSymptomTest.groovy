@@ -75,8 +75,9 @@ class HttpSockShoptSymptomTest extends TestCase {
 	public void testInstance1() {
 		String json = '{"log":"\u001b[0mGET /catalogue?sort=id&size=3&tags=sport \u001b[32m200 \u001b[0m2.425 ms - -\u001b[0m","container_id":"754656f9793dbf60c6dcebab925df4171e1a505a089a354685a9f1ba7ffde74c","container_name":"/dockercompose_front-end_1","source":"stdout"}'
 		DockerSymptom ds = DockerSymptom.newMaverickSymptom(json)
+		assert ds != null
 		HttpSockShopSymptom s = HttpSockShopSymptom.newHttpSockShopSymptom(ds)
-		
+		assert s != null
 		assert s.method == "GET"
 		assert s.path == "/catalogue"
 		assert s.params == [sort:"id",size:"3",tags:"sport"]
@@ -88,8 +89,9 @@ class HttpSockShoptSymptomTest extends TestCase {
 	public void testInstance2() {
 		String str = ' {"container_id":"754656f9793dbf60c6dcebab925df4171e1a505a089a354685a9f1ba7ffde74c","container_name":"/dockercompose_front-end_1","source":"stdout","log":"\u001b[0mGET /catalogue/510a0d7e-8e83-4193-b483-e27e09ddc34d \u001b[32m200 \u001b[0m2.165 ms - -\u001b[0m"}'
 		DockerSymptom ds = DockerSymptom.newMaverickSymptom(str)
+		assert ds != null
 		HttpSockShopSymptom s = new HttpSockShopSymptom(ds)
-		
+		assert s != null
 		assert s.method == "GET"
 		assert s.path == "/catalogue/510a0d7e-8e83-4193-b483-e27e09ddc34d"
 		assert s.params == [:]

@@ -55,6 +55,7 @@ public class DockerSymptom extends MaverickEvent implements IMaverickSymptom {
 	}
 	
 	public static DockerSymptom newMaverickSymptom(String json) {
+		json = sanitizeColor(json);
 		ObjectMapper mapper = new ObjectMapper();
 		DockerSymptom result = null;
 		try {

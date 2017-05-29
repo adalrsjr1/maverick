@@ -12,6 +12,4 @@ public abstract class MaverickEvent implements Serializable {
 	public static MaverickEvent deserialize(byte[] message) {
 		return SerializationUtils.deserialize(message);
 	}
-	
-	public abstract Object get(String property);
 }

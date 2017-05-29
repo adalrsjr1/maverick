@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import gfads.cin.ufpe.maverick.events.symtoms.DockerSymptom;
+
 public class MaverickChangePlan extends MaverickEvent implements Comparable<MaverickChangePlan> {
 	
 	private static final long serialVersionUID = -1624665312886096601L;
@@ -36,15 +38,10 @@ public class MaverickChangePlan extends MaverickEvent implements Comparable<Mave
 		return getAction().get(key);
 	}
 	
-	public long getElapsedTime(TimeUnit timeUnit) {
-		return changeRequest.getElapsedTime(timeUnit);
-	}
-	
 	public MaverickChangeRequest getChangeRequest() {
 		return changeRequest;
 	}
 	
-	@Override
 	public Object get(String property) {
 		if(property.equalsIgnoreCase("priority")) {
 			return getPriority();
@@ -60,7 +57,7 @@ public class MaverickChangePlan extends MaverickEvent implements Comparable<Mave
 	@Override
 	public boolean equals(Object o) {
 		if(o == this) return true;
-		if(! (o instanceof MaverickSymptom)) return false;
+		if(! (o instanceof DockerSymptom)) return false;
 		
 		MaverickChangePlan changePlan = (MaverickChangePlan) o;
 		

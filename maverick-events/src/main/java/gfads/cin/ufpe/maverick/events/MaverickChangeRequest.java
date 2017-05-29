@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
+import gfads.cin.ufpe.maverick.events.symtoms.DockerSymptom;
+
 public class MaverickChangeRequest extends MaverickEvent {
 	private static final long serialVersionUID = -3297778122994192136L;
 
@@ -31,7 +34,6 @@ public class MaverickChangeRequest extends MaverickEvent {
 		metadata.remove(key);
 	}
 	
-	@Override
 	public Object get(String property) {
 		if(property.equalsIgnoreCase("name")) {
 			return getName();
@@ -47,10 +49,6 @@ public class MaverickChangeRequest extends MaverickEvent {
 		return symptom;
 	}
 	
-	public long getElapsedTime(TimeUnit timeUnit) {
-		return symptom.getElapsedTime(timeUnit);
-	}
-
 	@Override
 	public String toString() {
 		return "MaverickChangeRequest [symptom=" + symptom + ", name=" + name + ", metadata=" + metadata + "]";
@@ -59,7 +57,7 @@ public class MaverickChangeRequest extends MaverickEvent {
 	@Override
 	public boolean equals(Object o) {
 		if(o == this) return true;
-		if(! (o instanceof MaverickSymptom)) return false;
+		if(! (o instanceof DockerSymptom)) return false;
 		
 		MaverickChangeRequest changeRequest = (MaverickChangeRequest) o;
 		

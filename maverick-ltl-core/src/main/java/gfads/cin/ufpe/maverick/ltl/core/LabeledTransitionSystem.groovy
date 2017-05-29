@@ -1,6 +1,6 @@
 package gfads.cin.ufpe.maverick.ltl.core
 
-import gfads.cin.ufpe.maverick.events.IMaverickSymptom
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
 import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker
 import jhoafparser.ast.BooleanExpression
 import jhoafparser.storage.StoredAutomaton

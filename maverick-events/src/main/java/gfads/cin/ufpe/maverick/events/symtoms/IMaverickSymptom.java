@@ -1,13 +1,11 @@
-package gfads.cin.ufpe.maverick.events;
+package gfads.cin.ufpe.maverick.events.symtoms;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public interface IMaverickSymptom extends Log {
+public interface IMaverickSymptom {
 
 	default public Object get(String property) {
 		Method methods[] = this.getClass().getMethods();
@@ -19,21 +17,13 @@ public interface IMaverickSymptom extends Log {
 		if(Objects.nonNull(method)) {
 			try {
 				return method.invoke(this, null);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
-		Object log = getLog();
-		
-		if(log instanceof Log) {
-			return ((Log) log).get(property);
-		}
-		
 		return null;
 	}
-
-	long getElapsedTime(TimeUnit timeUnit);
 
 	String getContainerId();
 
@@ -41,10 +31,8 @@ public interface IMaverickSymptom extends Log {
 
 	String getSource();
 
-	Object getLog();
-
-	Map<String, Object> getLogAsMap();
-
 	Object getLogMessage();
+	
+	IMaverickSymptom getEmpty();
 	
 }

@@ -6,10 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.SockShopLog;
-import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.SockShopSymptom;
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
-import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
+import gfads.cin.ufpe.maverick.events.symtoms.SpringBootSymptom;
 
 /*
  * All Property instantiation must have a @Component annotation and
@@ -38,7 +37,7 @@ public class SockShopTimeResponseProperty extends Property {
 	 * sendChangeRequest(changeRequest)
 	 */
 	public void process(IMaverickSymptom symptom) {
-		SockShopSymptom newSymptom = SockShopSymptom.newSockShopSymptom(symptom);
+		SpringBootSymptom newSymptom = SpringBootSymptom.newSpringBootSymtom(symptom);
 		Object responseTime = newSymptom.get("responseTime");
 		
 		if(Objects.nonNull(responseTime) && responseTime instanceof Integer) {
@@ -48,4 +47,5 @@ public class SockShopTimeResponseProperty extends Property {
 		
 		System.out.println(newSymptom);
 	}
+	
 }

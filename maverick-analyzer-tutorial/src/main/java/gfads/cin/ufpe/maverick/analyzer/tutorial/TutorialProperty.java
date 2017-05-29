@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
-import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.ltl.core.NonViolationEvent;
 
 /*

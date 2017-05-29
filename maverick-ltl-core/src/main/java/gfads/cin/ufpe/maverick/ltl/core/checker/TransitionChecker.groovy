@@ -1,6 +1,6 @@
 package gfads.cin.ufpe.maverick.ltl.core.checker
 
-import gfads.cin.ufpe.maverick.events.IMaverickSymptom
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
 
 /**
  * The implmentation of this interface must be thread-safe!

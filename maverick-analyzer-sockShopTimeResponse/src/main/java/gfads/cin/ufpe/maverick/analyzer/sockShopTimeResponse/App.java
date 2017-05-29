@@ -1,5 +1,9 @@
 package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -8,7 +8,7 @@ import org.junit.Test
 
 import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.HttpLog
 
-class HttpLogTest {
+class HttpSockShopSymptom {
 	//GET /catalogue/images/cross_2.jpeg 200 1.151 ms - 33687"
 	//GET /catalogue?sort=id&size=3&tags=sport 200 2.572 ms
 	HttpLog l = new HttpLog("")
@@ -89,5 +89,8 @@ class HttpLogTest {
 		assert l.isResponseTime(" 37252.269 ") == true
 		
 	}
+	
+	
+	
 
 }

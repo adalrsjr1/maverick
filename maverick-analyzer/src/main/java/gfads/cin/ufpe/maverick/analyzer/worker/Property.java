@@ -2,8 +2,8 @@ package gfads.cin.ufpe.maverick.analyzer.worker;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
 
 public abstract class Property {
 	@Autowired

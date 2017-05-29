@@ -1,7 +1,7 @@
 package gfads.cin.ufpe.maverick.ltl.core;
 
-import gfads.cin.ufpe.maverick.events.IMaverickSymptom;
-import gfads.cin.ufpe.maverick.events.MaverickSymptom;
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
+import gfads.cin.ufpe.maverick.events.symtoms.DockerSymptom;
 import gfads.cin.ufpe.maverick.ltl.core.checker.TransitionChecker;
 import junit.framework.TestCase;
 
@@ -49,15 +49,15 @@ public class AppTest extends TestCase {
 		LabeledTransitionSystemState state = new LabeledTransitionSystemState("");
 		state.setInitialState(lts.getInitialState());
 		
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "red", "", "")), nv);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "red", "", "")), nv);
 		assertEquals(state.isInAcceptanceState(), true);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", "")), v);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", "")), v);
 		assertEquals(state.isInAcceptanceState(), false);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", "")), v);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", "")), v);
 		assertEquals(state.isInAcceptanceState(), false);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "green", "", "")), v);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "green", "", "")), v);
 		assertEquals(state.isInAcceptanceState(), false);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "red", "", "")), v);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "red", "", "")), v);
 		assertEquals(state.isInAcceptanceState(), false);
 	}
 	
@@ -66,13 +66,13 @@ public class AppTest extends TestCase {
 		LabeledTransitionSystemState state = new LabeledTransitionSystemState("");
 		state.setInitialState(lts.getInitialState());
 		
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", "")), nv);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", "")), nv);
 		assertEquals(state.isInAcceptanceState(), true);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", "")), nv);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", "")), nv);
 		assertEquals(state.isInAcceptanceState(), true);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "green", "", "")), nv);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "green", "", "")), nv);
 		assertEquals(state.isInAcceptanceState(), true);
-		assertEquals(lts.next(state, MaverickSymptom.newMaverickSymptom("", "red", "", "")), nv);
+		assertEquals(lts.next(state, DockerSymptom.newMaverickSymptom("", "red", "", "")), nv);
 		assertEquals(state.isInAcceptanceState(), true);
 	}
 	
@@ -83,11 +83,11 @@ public class AppTest extends TestCase {
 		
 		LabeledTransitionSystemEvent event;
 		
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "green", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "red", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "green", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "red", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
 		
 		assertSame(event, v);
 	}
@@ -99,10 +99,10 @@ public class AppTest extends TestCase {
 		
 		LabeledTransitionSystemEvent event;
 		
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "green", "", ""));
-		event = lts.next(state, MaverickSymptom.newMaverickSymptom("", "red", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "green", "", ""));
+		event = lts.next(state, DockerSymptom.newMaverickSymptom("", "red", "", ""));
 		
 		assertSame(event, nv);
 	}
@@ -123,15 +123,15 @@ public class AppTest extends TestCase {
 		LabeledTransitionSystemEvent event2;
 		LabeledTransitionSystemEvent event3;
 		
-		event1 = lts.next(state1, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event2 = lts.next(state2, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event3 = lts.next(state3, MaverickSymptom.newMaverickSymptom("", "green", "", ""));
-		event1 = lts.next(state1, MaverickSymptom.newMaverickSymptom("", "red", "", ""));
-		event2 = lts.next(state2, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event3 = lts.next(state3, MaverickSymptom.newMaverickSymptom("", "red", "", ""));
-		event1 = lts.next(state1, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event2 = lts.next(state2, MaverickSymptom.newMaverickSymptom("", "yellow", "", ""));
-		event3 = lts.next(state3, MaverickSymptom.newMaverickSymptom("", "green", "", ""));
+		event1 = lts.next(state1, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event2 = lts.next(state2, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event3 = lts.next(state3, DockerSymptom.newMaverickSymptom("", "green", "", ""));
+		event1 = lts.next(state1, DockerSymptom.newMaverickSymptom("", "red", "", ""));
+		event2 = lts.next(state2, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event3 = lts.next(state3, DockerSymptom.newMaverickSymptom("", "red", "", ""));
+		event1 = lts.next(state1, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event2 = lts.next(state2, DockerSymptom.newMaverickSymptom("", "yellow", "", ""));
+		event3 = lts.next(state3, DockerSymptom.newMaverickSymptom("", "green", "", ""));
 
 		assertSame(event1, v);
 		assertSame(event2, nv);

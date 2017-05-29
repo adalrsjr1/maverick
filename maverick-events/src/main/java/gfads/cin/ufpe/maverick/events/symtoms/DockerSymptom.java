@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -42,7 +44,13 @@ public class DockerSymptom extends MaverickEvent implements IMaverickSymptom {
 		return new DockerSymptom(containerId, containerName, source, log);
 	}
 
+	private static String sanitizeColor(String token) {
+		String regex = "(\\u001b\\[[0-9]+m){1}";
+		return token.replaceAll(regex, "");
+	}
+	
 	public static DockerSymptom newMaverickSymptom(String json) {
+		json = sanitizeColor(json);
 		json = json.replaceAll("\r", "");
 		ObjectMapper mapper = new ObjectMapper();
 		DockerSymptom result = null;

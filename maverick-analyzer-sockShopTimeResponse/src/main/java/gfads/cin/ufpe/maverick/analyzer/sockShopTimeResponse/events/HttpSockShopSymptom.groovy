@@ -1,14 +1,70 @@
 package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events
 
-import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
+import java.util.concurrent.TimeUnit
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
+import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
+
+@ToString
+@EqualsAndHashCode
 class HttpSockShopSymptom implements IMaverickSymptom {
 
 	public static final HttpSockShopSymptom EMPTY_HTTP_SOCK_SHOP_SYMPTOM = new HttpSockShopSymptom() 
 	
-	private IMaverickSymptom symptom
+	private IMaverickSymptom symptom = EMPTY_HTTP_SOCK_SHOP_SYMPTOM
+	private String method = ""
+	private String path = ""
+	private Map params = [:]
+	private int response = -1
+	private float responseTime = -1f
+	private String responseTimeUnit = ""
 	private HttpSockShopSymptom() { }
 
+	public HttpSockShopSymptom (IMaverickSymptom symptom) {
+		this.symptom = symptom
+		httpSockShopParser(this.symptom.getLogMessage())
+	}
+	
+	public HttpSockShopSymptom(String log) {
+		httpSockShopParser(log)
+	}
+	
+	public static HttpSockShopSymptom newHttpSockShopSymptom(IMaverickSymptom symptom) {
+		return new HttpSockShopSymptom(symptom)
+	}
+	
+	private void httpSockShopParser(String log) {
+		Matcher matcher = (log =~ /(?<method>GET|POST|PUT|DELETE)\s+(?<path>[a-zA-Z\/_0-9\.-]*)(?<params>\?\S+)*\s(?<response>[0-9]{3})\s(?<responsetime>[0-9\.]+)\s(?<timeunit>\S{2})(.)*/)
+
+		if(!matcher.find()) {
+			return
+		}
+		
+		method = matcher.group("method")
+		path = matcher.group("path")
+		response = Integer.parseInt(matcher.group("response"))
+		responseTime = Float.parseFloat(matcher.group("responsetime"))
+		responseTimeUnit = matcher.group("timeunit")
+		
+		def paramsRecognized = matcher.group("params")
+		if(paramsRecognized) {
+			params = parseParams(paramsRecognized)
+		}
+	}
+	
+	private Map parseParams(String string) {
+		string = string.substring(1)
+		
+		return string.split("&").inject([:]) {result, tokens ->
+			String[] aux = tokens.split("=")
+			result[(aux[0])] = (aux[1])
+			result 
+		}
+	}
+	
 	@Override
 	public String getContainerId() {
 		return symptom.getContainerId()
@@ -31,6 +87,38 @@ class HttpSockShopSymptom implements IMaverickSymptom {
 
 	@Override
 	public IMaverickSymptom getEmpty() {
+		return EMPTY_HTTP_SOCK_SHOP_SYMPTOM
+	}
+
+	public IMaverickSymptom getSymptom() {
+		return symptom;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public Map getParams() {
+		return params;
+	}
+
+	public int getResponse() {
+		return response;
+	}
+
+	public float getResponseTime() {
+		return responseTime;
+	}
+
+	public String getResponseTimeUnit() {
+		return responseTimeUnit;
+	}
+	
+	public IMaverickSymptom empty() {
 		return EMPTY_HTTP_SOCK_SHOP_SYMPTOM
 	}
 }

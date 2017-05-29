@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.HttpSockShopSymptom;
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
+import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.events.symtoms.SpringBootSymptom;
 
@@ -19,13 +21,13 @@ public class SockShopTimeResponseProperty extends Property {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SockShopTimeResponseProperty.class);
 	
-	private final Integer offset;
+	private final Float offset;
 	
 	/**
 	 * Instantiated automatically by SockShopTimeResponsePropertyConfig
 	 * @param name
 	 */
-	public SockShopTimeResponseProperty(String name, Integer offset) {
+	public SockShopTimeResponseProperty(String name, Float offset) {
 		super(name);
 		this.offset = offset;
 	}
@@ -38,14 +40,13 @@ public class SockShopTimeResponseProperty extends Property {
 	 */
 	public void process(IMaverickSymptom symptom) {
 		SpringBootSymptom newSymptom = SpringBootSymptom.newSpringBootSymtom(symptom);
-		Object responseTime = newSymptom.get("responseTime");
+		HttpSockShopSymptom httpSymptom = HttpSockShopSymptom.newHttpSockShopSymptom(newSymptom);
 		
-		if(Objects.nonNull(responseTime) && responseTime instanceof Integer) {
-			System.out.println(((Integer)newSymptom.get("responseTime") > 10) + "");
+		if(httpSymptom.getResponseTime() > offset) {
+			MaverickChangeRequest changeRequest = new MaverickChangeRequest(name, httpSymptom);
+			sendChangeRequest(changeRequest);
+			LOG.debug(changeRequest.toString());
 		}
-		
-		
-		System.out.println(newSymptom);
 	}
 	
 }

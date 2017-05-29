@@ -24,7 +24,7 @@ public class SockShopTimeResponsePropertyConfig {
 	}
 	
 	@Bean
-	public Integer offset(@Value("${maverick.property.offset}") Integer offset) {
+	public Float offset(@Value("${maverick.property.offset}") Float offset) {
 		return offset;
 	}
 	
@@ -34,7 +34,7 @@ public class SockShopTimeResponsePropertyConfig {
 	 * @param name
 	 * @return
 	 */
-	public Property property(String name, Integer offset) {
+	public Property property(String name, Float offset) {
 		return new SockShopTimeResponseProperty(name, offset);
 	}
 }

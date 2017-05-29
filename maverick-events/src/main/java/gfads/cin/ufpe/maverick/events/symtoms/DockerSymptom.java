@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.MoreObjects;
 
 import gfads.cin.ufpe.maverick.events.MaverickEvent;
 
@@ -33,11 +34,15 @@ public class DockerSymptom extends MaverickEvent implements IMaverickSymptom {
 
 	private DockerSymptom() { }
 
+	private void setLogMessage(String log) {
+		logMessage = sanitizeColor(log);
+	}
+	
 	private DockerSymptom(String containerId, String containerName, String source, String log) {
 		this.containerId = containerId;
 		this.containerName = containerName;
 		this.source = source;
-		this.logMessage = log;
+		setLogMessage(log);
 	}
 	
 	public static DockerSymptom newMaverickSymptom(String containerId, String containerName, String source, String log) {
@@ -50,8 +55,6 @@ public class DockerSymptom extends MaverickEvent implements IMaverickSymptom {
 	}
 	
 	public static DockerSymptom newMaverickSymptom(String json) {
-		json = sanitizeColor(json);
-		json = json.replaceAll("\r", "");
 		ObjectMapper mapper = new ObjectMapper();
 		DockerSymptom result = null;
 		try {
@@ -108,8 +111,11 @@ public class DockerSymptom extends MaverickEvent implements IMaverickSymptom {
 	
 	@Override
 	public String toString() {
-		return "MaverickSymptom [containerId=" + containerId + ", containerName=" + containerName + ", source=" + source
-				+ ", log=" + logMessage + "]";
+		return MoreObjects.toStringHelper(this)
+		           	      .add("containerId", containerId)
+		           	      .add("containerName", containerName)
+		           	      .add("source", source)
+		                  .toString();
 	}
 	
 	@Override

@@ -1,14 +1,12 @@
 package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events
 
-import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
-import java.util.regex.Pattern
+
+import com.google.common.base.MoreObjects
 
 import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 
-@ToString
 @EqualsAndHashCode
 class HttpSockShopSymptom implements IMaverickSymptom {
 
@@ -120,5 +118,19 @@ class HttpSockShopSymptom implements IMaverickSymptom {
 	
 	public IMaverickSymptom empty() {
 		return EMPTY_HTTP_SOCK_SHOP_SYMPTOM
+	}
+	
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this)
+		                  .add("symptom", symptom)
+						  .add("method", method)
+						  .add("path", path)
+						  .add("params", params)
+						  .add("response", response)
+						  .add("responseTime", responseTime)
+						  .add("responseTimeUnit", responseTimeUnit)
+						  .toString()
+		
 	}
 }

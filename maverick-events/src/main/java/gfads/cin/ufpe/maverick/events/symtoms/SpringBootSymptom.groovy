@@ -10,6 +10,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.common.base.MoreObjects
 import com.google.common.base.Strings
 
 import gfads.cin.ufpe.maverick.events.MaverickEvent
@@ -17,7 +18,6 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 // http://docs.spring.io/spring-boot/docs/1.2.1.RELEASE/reference/htmlsingle/#boot-features-logging-format
-@ToString
 @EqualsAndHashCode
 class SpringBootSymptom extends MaverickEvent implements IMaverickSymptom {
 	private static final Logger LOG = LoggerFactory.getLogger(SpringBootSymptom.class)
@@ -156,5 +156,19 @@ class SpringBootSymptom extends MaverickEvent implements IMaverickSymptom {
 	@Override
 	public IMaverickSymptom getEmpty() {
 		return EMPTY_SPRINGBOOT_SYMPTOM
+	}
+	
+	@Override
+	public String toString() {
+		MoreObjects.toStringHelper(this)
+		           .add("dockerSymptom", symptom)
+				   .add("timestamp", timestamp)
+				   .add("logLevel", logLevel)
+				   .add("serviceName", serviceName)
+				   .add("processId", processId)
+				   .add("threadName", threadName)
+				   .add("loggerName", loggerName)
+				   .add("springBootLogMessage", springBootLogMessage)
+				   .toString()
 	}
 }

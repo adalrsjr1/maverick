@@ -1,16 +1,12 @@
 package gfads.cin.ufpe.maverick.planner.repository;
 
-import java.util.List;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.MaverickPolicy;
 
-public interface PolicyRepository {
+public interface PolicyRepository extends MongoRepository<MaverickPolicy, String> {
 
-	void storePolicy(MaverickPolicy policy);
-
-	List<MaverickPolicy> fetchAdaptationPlans(MaverickChangeRequest changeRequest);
-
-	List<MaverickPolicy> fetchAll();
-
+	@Cacheable (cacheNames = "policies")
+	Iterable<MaverickPolicy> findAllByName(String changeRequestName);
 }

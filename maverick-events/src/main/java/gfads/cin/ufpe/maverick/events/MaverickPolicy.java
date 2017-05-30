@@ -5,15 +5,23 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+@Document(collection="policies")
 public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable {
 	private static final long serialVersionUID = 6018864738458188034L;
-
+	
+	@Id
+	private String id;
+	private String name;
+	
+	@Indexed
 	@JsonProperty("changeRequest")
 	private String changeRequest;
 	@JsonProperty("action")
@@ -32,6 +40,15 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 		this.changeRequest = changeRequest;
 		this.action = action;
 		this.priority = priority;
+		this.name = this.changeRequest;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public String getChangeRequest() {

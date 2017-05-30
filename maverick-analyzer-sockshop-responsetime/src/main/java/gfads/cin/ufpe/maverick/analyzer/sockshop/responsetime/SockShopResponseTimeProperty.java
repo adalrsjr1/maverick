@@ -1,4 +1,4 @@
-package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse;
+package gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events.HttpSockShopSymptom;
+import gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.events.HttpSockShopSymptom;
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
@@ -17,9 +17,9 @@ import gfads.cin.ufpe.maverick.events.symtoms.SpringBootSymptom;
  * extends a Property
  */
 @Component
-public class SockShopTimeResponseProperty extends Property {
+public class SockShopResponseTimeProperty extends Property {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SockShopTimeResponseProperty.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SockShopResponseTimeProperty.class);
 	
 	private final Float offset;
 	
@@ -27,7 +27,7 @@ public class SockShopTimeResponseProperty extends Property {
 	 * Instantiated automatically by SockShopTimeResponsePropertyConfig
 	 * @param name
 	 */
-	public SockShopTimeResponseProperty(String name, Float offset) {
+	public SockShopResponseTimeProperty(String name, Float offset) {
 		super(name);
 		this.offset = offset;
 	}

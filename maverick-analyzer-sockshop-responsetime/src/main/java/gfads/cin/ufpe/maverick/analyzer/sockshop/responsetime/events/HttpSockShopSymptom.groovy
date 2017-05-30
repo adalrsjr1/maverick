@@ -4,6 +4,7 @@ import java.util.regex.Matcher
 
 import com.google.common.base.MoreObjects
 
+import gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.events.HttpSockShopSymptom
 import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
 import groovy.transform.EqualsAndHashCode
 

@@ -1,4 +1,4 @@
-package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse;
+package gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import gfads.cin.ufpe.maverick.analyzer.worker.Property;
 @Configuration
 // To get properties from dependencies
 @ComponentScan(basePackages={"gfads.cin.ufpe.maverick.analyzer.config"}) 
-public class SockShopTimeResponsePropertyConfig {
+public class SockShopResponseTimePropertyConfig {
 	
 	@Bean
 	/**
@@ -35,6 +35,6 @@ public class SockShopTimeResponsePropertyConfig {
 	 * @return
 	 */
 	public Property property(String name, Float offset) {
-		return new SockShopTimeResponseProperty(name, offset);
+		return new SockShopResponseTimeProperty(name, offset);
 	}
 }

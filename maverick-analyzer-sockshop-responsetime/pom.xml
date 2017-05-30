@@ -9,7 +9,7 @@
 		<version>1.5.2.RELEASE</version>
 	</parent>
 
-	<groupId>gfads.cin.ufpe.maverick.analyzer.sockshop-responsetime</groupId>
+	<groupId>gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime</groupId>
 	<artifactId>maverick-analyzer-sockshop-responsetime</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>maverick-analyzer-sockshop-responsetime</name>
@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

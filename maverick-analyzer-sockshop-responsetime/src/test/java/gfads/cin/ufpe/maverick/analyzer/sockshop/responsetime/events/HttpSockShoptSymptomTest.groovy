@@ -1,13 +1,7 @@
-package gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.events;
-
-import static org.junit.Assert.*
-
-import java.security.interfaces.DSAParams
-
-import junit.framework.TestCase
-import org.junit.Test
+package gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.events;
 
 import gfads.cin.ufpe.maverick.events.symtoms.DockerSymptom
+import junit.framework.TestCase
 
 class HttpSockShoptSymptomTest extends TestCase {
 

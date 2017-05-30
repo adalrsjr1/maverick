@@ -3,26 +3,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>gfads.cin.ufpe.maverick</groupId>
-	<artifactId>maverick-analyzer-sockShopTimeResponse</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>maverick-analyzer-sockShopTimeResponse</name>
-	<url>http://maven.apache.org</url>
-
-	<properties>
-		<start-class>gfads.cin.ufpe.maverick.analyzer.sockShopTimeResponse.App</start-class>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<java.version>1.8</java.version>
-	</properties>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.2.RELEASE</version>
 	</parent>
+
+	<groupId>gfads.cin.ufpe.maverick.analyzer.sockshop-responsetime</groupId>
+	<artifactId>maverick-analyzer-sockshop-responsetime</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>maverick-analyzer-sockshop-responsetime</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<start-class>gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.App</start-class>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
+	</properties>
 
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
@@ -99,7 +98,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

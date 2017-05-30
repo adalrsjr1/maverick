@@ -5,5 +5,7 @@ import gfads.cin.ufpe.maverick.events.symtoms.DockerSymptom;
 import junit.framework.TestCase;
 
 public class MaverickChangeRequestTest extends TestCase {
-	
+	public void test() {
+		assertTrue(true);
+	}
 }

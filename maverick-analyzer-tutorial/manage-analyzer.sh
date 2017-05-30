@@ -45,7 +45,9 @@ function remove {
 
 export NAME=$2
 # upper case first letter of property name
-export NAME_UPPER="$(tr '[:lower:]' '[:upper:]' <<< ${NAME:0:1})${NAME:1}"
+#export NAME_UPPER="$(tr '[:lower:]' '[:upper:]' <<< ${NAME:0:1})${NAME:1}"
+# dash to upper camel case
+export NAME_UPPER=$(echo $2 | sed -r 's/(^|-)([a-z])/\U\2/g')
 
 if [[ $1 = create ]] ; then
     create

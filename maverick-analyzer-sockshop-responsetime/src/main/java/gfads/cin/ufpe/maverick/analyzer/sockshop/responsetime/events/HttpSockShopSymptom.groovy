@@ -5,11 +5,12 @@ import java.util.regex.Matcher
 import com.google.common.base.MoreObjects
 
 import gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.events.HttpSockShopSymptom
+import gfads.cin.ufpe.maverick.events.MaverickEvent
 import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom
 import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
-class HttpSockShopSymptom implements IMaverickSymptom {
+class HttpSockShopSymptom extends MaverickEvent implements IMaverickSymptom {
 
 	public static final HttpSockShopSymptom EMPTY_HTTP_SOCK_SHOP_SYMPTOM = new HttpSockShopSymptom() 
 	

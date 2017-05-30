@@ -8,6 +8,7 @@ public class App {
 	/*
 	 * --spring.rabbitmq.host=<rabbitmq address> 
 	 * --maverick.property.name=<property name>
+	 * --maverick.property.offset=<responsetime offset>
 	 * --spring.profiles.active=work-queues,sender
 	 */
 	public static void main(String[] args) {

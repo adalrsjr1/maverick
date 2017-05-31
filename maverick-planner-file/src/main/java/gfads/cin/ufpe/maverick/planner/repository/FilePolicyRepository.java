@@ -35,7 +35,7 @@ public class FilePolicyRepository implements PolicyRepository {
 	}
 
 	@Override
-//	@Cacheable (cacheNames = "policies")
+	@Cacheable (cacheNames = "policies")
 	public synchronized Iterable<MaverickPolicy> findByChangeRequest(String changeRequestName) {
 		try {
 			Thread.sleep(5000);

@@ -19,7 +19,6 @@
 		</Root>
 		<Logger name="gfads.cin.ufpe.maverick" level="ALL">
 			<AppenderRef ref="Console"/>
-			<AppenderRef ref="ConsoleJson"/>
 		</Logger>
 	</Loggers>
 </Configuration>

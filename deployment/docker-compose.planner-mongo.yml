@@ -1,6 +1,6 @@
 version: '3'
 services:
-    adaptation:
+  adaptation:
     image: adalrsjr1/maverick-executor
     networks:
       - maverick
@@ -10,17 +10,14 @@ services:
       - fluentd
       - rabbitmq
       - planner
-    entrypoint:
-      - java
-      - jar
-      - maverick-executor-0.0.1-SNAPSHOT.jar
-      - --spring.rabbitmq.host=rabbitmq
-      - --executor.actions.repository=src/main/resources/actions
-      - -Xms=64m
-      - -Xmx128m
-      - -XX:PermSize=32m
-      - -XX:MaxPermSize=64m
-      - -Djava.security.egd=file:/dev/urandom # performance workaround
+    command:
+      ["--spring.rabbitmq.host=rabbitmq",
+       "--executor.actions.repository=src/main/resources/actions",
+       "-Xms=64m",
+       "-Xmx128m",
+       "-XX:PermSize=32m",
+       "-XX:MaxPermSize=64m",
+       "-Djava.security.egd=file:/dev/urandom"] # performance workaround
   planner-repo:
     image: mongoclient/mongoclient
     networks:
@@ -41,15 +38,12 @@ services:
     depends_on:
       - fluentd
       - rabbitmq
-      - analyzer
-    entrypoint:
-      - java
-      - jar
-      - maverick-planner-mongo-0.0.1-SNAPSHOT.jar
-      - --spring.rabbitmq.host=rabbitmq
-      - --maverick.planner.nWorkers=8
-      - -Xms=64m
-      - -Xmx=128m
-      - -XX:PermSize=32m
-      - -XX:MaxPermSize=64m
-      - -Djava.security.egd=file:/dev/urandom
+    command:
+      ["--spring.rabbitmq.host=rabbitmq",
+       "--spring.data.mongodb.host=planner-repo",
+       "--maverick.planner.nWorkers=8",
+       "-Xms=64m",
+       "-Xmx=128m",
+       "-XX:PermSize=32m",
+       "-XX:MaxPermSize=64m",
+       "-Djava.security.egd=file:/dev/urandom"]

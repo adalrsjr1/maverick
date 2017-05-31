@@ -9,13 +9,12 @@ services:
     depends_on:
       - fluentd
       - rabbitmq
-    entrypoint:
-      - java
-      - jar
-      - maverick-analyzer-sockshop-responsetime-0.0.1-SNAPSHOT.jar
-      - --spring.rabbitmq.host=rabbitmq
-      - -Xms=64m
-      - -Xmx=128m
-      - -XX:PermSize=32m
-      - -XX:MaxPermSize=64m
-      - -Djava.security.egd=file:/dev/urandom
+    command:
+      ["--spring.rabbitmq.host=rabbitmq",
+       "--maverick.property.name=sockshop-responsetime",
+       "--maverick.property.offset=5",
+       "-Xms=64m",
+       "-Xmx=128m",
+       "-XX:PermSize=32m",
+       "-XX:MaxPermSize=64m",
+       "-Djava.security.egd=file:/dev/urandom"]

@@ -1,6 +1,6 @@
 version: '3'
 services:
-    adaptation:
+  adaptation:
     image: adalrsjr1/maverick-executor
     networks:
       - maverick
@@ -10,17 +10,14 @@ services:
       - fluentd
       - rabbitmq
       - planner
-    entrypoint:
-      - java
-      - jar
-      - maverick-executor-0.0.1-SNAPSHOT.jar
-      - --spring.rabbitmq.host=rabbitmq
-      - --executor.actions.repository=src/main/resources/actions
-      - -Xms=64m
-      - -Xmx128m
-      - -XX:PermSize=32m
-      - -XX:MaxPermSize=64m
-      - -Djava.security.egd=file:/dev/urandom # performance workaround
+    command:
+      ["--spring.rabbitmq.host=rabbitmq",
+       "--executor.actions.repository=src/main/resources/actions",
+       "-Xms=64m",
+       "-Xmx128m",
+       "-XX:PermSize=32m",
+       "-XX:MaxPermSize=64m",
+       "-Djava.security.egd=file:/dev/urandom"] # performance workaround
   planner:
     image: adalrsjr1/maverick-planner-file
     networks:
@@ -30,15 +27,10 @@ services:
     depends_on:
       - fluentd
       - rabbitmq
-      - analyzer
-    entrypoint:
-      - java
-      - jar
-      - maverick-planner-file-0.0.1-SNAPSHOT.jar
-      - --spring.rabbitmq.host=rabbitmq
-      - ----
-      - -Xms=64m
-      - -Xmx=128m
-      - -XX:PermSize=32m
-      - -XX:MaxPermSize=64m
-      - -Djava.security.egd=file:/dev/urandom
+    command:
+       ["--spring.rabbitmq.host=rabbitmq",
+       "-Xms=64m",
+       "-Xmx=128m",
+       "-XX:PermSize=32m",
+       "-XX:MaxPermSize=64m",
+       "-Djava.security.egd=file:/dev/urandom"]

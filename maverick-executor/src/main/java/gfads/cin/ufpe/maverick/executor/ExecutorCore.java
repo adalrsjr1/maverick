@@ -7,15 +7,20 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import gfads.cin.ufpe.maverick.events.MaverickChangePlan;
 import gfads.cin.ufpe.maverick.executor.context.Context;
 import groovy.util.GroovyScriptEngine;
+import groovy.util.ResourceException;
 
 @Component
 public class ExecutorCore {
+	private static final Logger LOG = LoggerFactory.getLogger(ExecutorCore.class);
+	
 	@Autowired
 	private Context context;
 	
@@ -43,9 +48,18 @@ public class ExecutorCore {
 	
 	public boolean doWork(MaverickChangePlan changePlan) throws Exception {
 		String action = changePlan.getActionName();
-		Class<?> classToLoad = loadClass(action);
-		Method method = classToLoad.getDeclaredMethod("execute", Object.class, Object.class);
-		Object instance = classToLoad.newInstance();
-		return (Boolean) method.invoke(instance, context, changePlan.getAction());
+		
+		Class<?> classToLoad = null;
+		try {
+			classToLoad = loadClass(action);
+			Method method = classToLoad.getDeclaredMethod("execute", Object.class, Object.class);
+			Object instance = classToLoad.newInstance();
+			return (Boolean) method.invoke(instance, context, changePlan.getAction());
+		}
+		catch(ResourceException e) {
+			LOG.warn(e.getMessage());
+		}
+		
+		return false;
 	}
 }

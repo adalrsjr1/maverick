@@ -37,12 +37,17 @@ public class PolicySelector {
 	}
 	
 	public void doWork(MaverickChangeRequest changeRequest) {
+		
+		LOG.trace("Planner Processing: {}", changeRequest);
 		threadPool.execute(() -> {
-			Iterable<MaverickPolicy> policies = repository.findAllByName(changeRequest.getName());
-
-			policies.forEach(policy -> {
+			Iterable<MaverickPolicy> policies = repository.findByChangeRequest(changeRequest.getName());
+			
+			int count = 0;
+			for(MaverickPolicy policy : policies) {
 				sender.send(new MaverickChangePlan(policy, changeRequest));
-			});
+				count++;
+			}
+			LOG.info("{} Policies selected for {}", count, changeRequest.getName());
 		});
 		
 	}

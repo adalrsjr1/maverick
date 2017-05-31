@@ -8,5 +8,5 @@ import gfads.cin.ufpe.maverick.events.MaverickPolicy;
 public interface PolicyRepository extends MongoRepository<MaverickPolicy, String> {
 
 	@Cacheable (cacheNames = "policies")
-	Iterable<MaverickPolicy> findAllByName(String changeRequestName);
+	Iterable<MaverickPolicy> findByChangeRequest(String changeRequestName);
 }

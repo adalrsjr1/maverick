@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.events.HttpSockShopSymptom;
 import gfads.cin.ufpe.maverick.analyzer.worker.Property;
 import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
 import gfads.cin.ufpe.maverick.events.symtoms.IMaverickSymptom;
 import gfads.cin.ufpe.maverick.events.symtoms.SpringBootSymptom;
+import gfads.cin.ufpe.maverick.events.symtoms.sockshop.HttpSockShopSymptom;
 
 /*
  * All Property instantiation must have a @Component annotation and
@@ -31,7 +31,7 @@ public class SockShopResponseTimeProperty extends Property {
 		super(name);
 		this.offset = offset;
 	}
-
+	
 	@Override
 	/**
 	 * Should implement the logic to process a symptom and send a 

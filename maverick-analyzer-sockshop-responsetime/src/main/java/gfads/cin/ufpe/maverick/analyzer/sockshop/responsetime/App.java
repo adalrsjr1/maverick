@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App {
 	/*
 	 * --spring.rabbitmq.host=<rabbitmq address> 
-	 * --maverick.property.name=<property name>
+	 * --maverick.property.name=<property name> // sockshop-responsetime
 	 * --maverick.property.offset=<responsetime offset>
 	 * --spring.profiles.active=work-queues,sender
 	 */

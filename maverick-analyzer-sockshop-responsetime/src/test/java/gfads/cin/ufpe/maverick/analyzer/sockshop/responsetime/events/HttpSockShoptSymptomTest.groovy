@@ -1,6 +1,7 @@
 package gfads.cin.ufpe.maverick.analyzer.sockshop.responsetime.events;
 
 import gfads.cin.ufpe.maverick.events.symtoms.DockerSymptom
+import gfads.cin.ufpe.maverick.events.symtoms.sockshop.HttpSockShopSymptom
 import junit.framework.TestCase
 
 class HttpSockShoptSymptomTest extends TestCase {

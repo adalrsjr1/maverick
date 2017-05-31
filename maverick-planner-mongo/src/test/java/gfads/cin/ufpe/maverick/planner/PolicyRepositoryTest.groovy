@@ -41,7 +41,7 @@ public class PolicyRepositoryTest extends TestCase {
 	@Test
 	public void testFetchData() {
 		/*Test data retrieval*/
-		def policies = policyRepository.findAllByName("changeRequest1")
+		def policies = policyRepository.findByChangeRequest("changeRequest1")
 		assertNotNull(policies)
 		assertEquals(policies.size(), 2)
 

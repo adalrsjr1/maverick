@@ -15,7 +15,9 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 	private static final long serialVersionUID = 6018864738458188034L;
 	
 //	@Id
+	@JsonProperty("id")
 	private String id;
+	@JsonProperty("name")
 	private String name;
 	
 //	@Indexed
@@ -102,7 +104,7 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getAction(), getChangeRequest(), getPriority());
+		return Objects.hash(getAction(), getChangeRequest(), getPriority(), getName());
 	}
 
 	@Override
@@ -114,6 +116,8 @@ public class MaverickPolicy implements Comparable<MaverickPolicy>, Serializable 
 		
 		return Objects.equals(this.action, policy.action) 
 			   && Objects.equals(this.changeRequest, policy.changeRequest)
+			   && Objects.equals(this.changeRequest, policy.changeRequest)
+			   && Objects.equals(this.name, policy.name)
 			   && Objects.equals(this.priority, policy.priority);
 	}
 

@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class MaverickPolicyTest extends TestCase {
 	
 	public void testPolicySerialization() {
-		String json = "{\"changeRequest\":\"testChangeRequest\",\"action\":{\"name\":\"testAction\",\"attr1\":1,\"attr2\":3.14,\"attr3\":\"value\"},\"priority\":5}";
+		String json = "{\"changeRequest\":\"testChangeRequest\",\"action\":{\"name\":\"testAction\",\"attr1\":1,\"attr2\":3.14,\"attr3\":\"value\"},\"priority\":5,\"id\":null,\"name\":\"testChangeRequest\"}";
 		
 		MaverickPolicy policy = MaverickPolicy.deserialize(json);
 		
@@ -17,7 +17,6 @@ public class MaverickPolicyTest extends TestCase {
 		assertEquals(policy, deserializedPolicy);
 
 		String newJson = deserializedPolicy.serializeToJson();
-		
 		assertEquals(json, newJson);
 	}
 }

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import gfads.cin.ufpe.maverick.events.MaverickChangePlan;
@@ -23,7 +22,7 @@ public class ExecutorCore {
 	private GroovyScriptEngine scriptEngine;
 	private Map<String, Class<?>> classCache = new HashMap<>();
 	
-	public ExecutorCore(@Value("${executor.actions.repository}") String actionsRepository) {
+	public ExecutorCore(String actionsRepository) {
 		URL[] urls;
 		try {
 			urls = new URL[] {new File(actionsRepository).toURI().toURL()};

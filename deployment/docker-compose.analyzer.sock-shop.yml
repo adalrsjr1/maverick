@@ -1,0 +1,21 @@
+version: '3'
+services:
+  sock-shop-responsetime:
+    image: adalrsjr1/maverick-analyzer-sockshop-responsetime
+    networks:
+      - maverick
+    volumes:
+      - data-volume:/home/app/src/main/resources/logs
+    depends_on:
+      - fluentd
+      - rabbitmq
+    entrypoint:
+      - java
+      - jar
+      - maverick-analyzer-sockshop-responsetime-0.0.1-SNAPSHOT.jar
+      - --spring.rabbitmq.host=rabbitmq
+      - -Xms=64m
+      - -Xmx=128m
+      - -XX:PermSize=32m
+      - -XX:MaxPermSize=64m
+      - -Djava.security.egd=file:/dev/urandom

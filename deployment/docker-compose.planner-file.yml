@@ -1,7 +1,9 @@
 version: '3'
 services:
     adaptation:
-    image: adalrsjr1/executor
+    image: adalrsjr1/maverick-executor
+    networks:
+      - maverick
     volumes:
       - data-volume:/home/app/src/main/resources/logs
     depends_on:
@@ -20,7 +22,9 @@ services:
       - -XX:MaxPermSize=64m
       - -Djava.security.egd=file:/dev/urandom # performance workaround
   planner:
-    image: adalrsjr1/planner-file
+    image: adalrsjr1/maverick-planner-file
+    networks:
+      - maverick
     volumes:
       - data-volume:/home/app/src/main/resources/logs
     depends_on:

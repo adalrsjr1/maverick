@@ -1,13 +1,11 @@
 package gfads.cin.ufpe.maverick.planner.repository;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,7 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import gfads.cin.ufpe.maverick.events.MaverickChangeRequest;
+import org.springframework.cache.annotation.Cacheable;
+
 import gfads.cin.ufpe.maverick.events.MaverickPolicy;
 
 public class FilePolicyRepository implements PolicyRepository {
@@ -36,27 +35,19 @@ public class FilePolicyRepository implements PolicyRepository {
 	}
 
 	@Override
-	public synchronized void storePolicy(MaverickPolicy policy) {
-		try(BufferedWriter writer = Files.newBufferedWriter(path, 
-											StandardOpenOption.CREATE,
-											StandardOpenOption.APPEND, 
-											StandardOpenOption.WRITE)) {
-			
-			writer.write(policy.serializeToJson() + "\n");
-			
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+//	@Cacheable (cacheNames = "policies")
+	public synchronized Iterable<MaverickPolicy> findByChangeRequest(String changeRequestName) {
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
-	}
-
-	@Override
-	public synchronized List<MaverickPolicy> fetchAdaptationPlans(MaverickChangeRequest changeRequest) {
 		List<MaverickPolicy> policies = null;
 
 		try(BufferedReader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"))) {
 			policies = reader.lines()
 					.map(l -> MaverickPolicy.deserialize(l))
-					.filter(p -> p.changeRequestMatch(changeRequest))
+					.filter(p -> Objects.equals(p.getName(), changeRequestName))
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -67,7 +58,7 @@ public class FilePolicyRepository implements PolicyRepository {
 	}
 
 	@Override
-	public synchronized List<MaverickPolicy> fetchAll() {
+	public synchronized List<MaverickPolicy> findAll() {
 		List<MaverickPolicy> policies = null;
 
 		try(BufferedReader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"))) {
@@ -80,5 +71,4 @@ public class FilePolicyRepository implements PolicyRepository {
 
 		return Objects.nonNull(policies) ? policies : new ArrayList<>();
 	}
-
 }

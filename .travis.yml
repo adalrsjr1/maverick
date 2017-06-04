@@ -1,0 +1,9 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+script:
+  - docker run --privileged -it --rm -v /var/run/docker.sock:/var/run/dock.sock -v $(pwd):/root/sources -w /root/sources adalrsjr1/maverick-travis ./compile-push.sh

@@ -1,10 +1,15 @@
-dist: trusty
+#dist: trusty
+#sudo: required
+#language: bash
+#services:
+#  - docker
+#script:
+#  - sudo docker run --privileged -it --rm -v /var/run/docker.sock:/var/run/dock.sock -v $(pwd):/root/sources -w /root/sources adalrsjr1/maverick-travis ./compile-push.sh
+
 sudo: required
-
-language: bash
-
+language: jvm
 services:
   - docker
 
 script:
-  - sudo docker run --privileged -it --rm -v /var/run/docker.sock:/var/run/dock.sock -v $(pwd):/root/sources -w /root/sources adalrsjr1/maverick-travis ./compile-push.sh
+  - ./build-travis.sh

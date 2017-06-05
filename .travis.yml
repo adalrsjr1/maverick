@@ -14,7 +14,6 @@ services:
   - docker
 
 before_install:
-  - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD
   - echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' | sudo tee -a /etc/apt/sources.list
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update
@@ -23,4 +22,5 @@ before_install:
   - docker run --name rabbitmq-build -d -p 127.0.0.1:5672:5672 rabbitmq:3.6-alpine
 
 script:
-  - mvn package -DpushImage
+ - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD
+ - mvn package -DpushImage

@@ -1,3 +1,5 @@
+[![Build Status] (https://travis-ci.org/adalrsjr1/maverick.svg?branch=master)](https://travis-ci.org/adalrsjr1/maverick)
+
 # Contributing
 
 1. Fork the project & clone locally.

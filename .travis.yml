@@ -23,4 +23,4 @@ before_install:
 
 script:
  - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD
- - mvn package -DpushImage
+ - mvn -X -e package -DpushImage

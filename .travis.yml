@@ -22,8 +22,8 @@ before_install:
   - docker run --name rabbitmq-build -d -p 127.0.0.1:5672:5672 rabbitmq:3.6-alpine
 
 script:
- - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD
  - mvn package
 
 after_sucess:
-  - ./push-images.sh
+ - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD 
+ - ./push-images.sh

@@ -14,7 +14,7 @@ services:
   - docker
 
 before_install:
-  - sudo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' | sudo tee -a /etc/apt/sources.list
+  - echo 'deb http://www.lrde.epita.fr/repo/debian/ stable/' | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update
   - sudo apt-get install spot libspot-dev -y
   - docker run -d -p 127.0.0.1:27017:27017 mongo

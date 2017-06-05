@@ -51,7 +51,7 @@ services:
       - RABBITMQ=rabbitmq
       - ELASTIC_SEARCH=elasticsearch
   rabbitmq:
-    image: rabbitmq:3.6-management
+    image: rabbitmq:3.6-management-alpine
     networks:
       - maverick
       - maverick-logging

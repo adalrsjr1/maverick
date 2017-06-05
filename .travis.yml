@@ -20,10 +20,8 @@ before_install:
   - sudo apt-get install spot libspot-dev -y --allow-unauthenticated
   - docker run --name mongo-build -d -p 127.0.0.1:27017:27017 mongo
   - docker run --name rabbitmq-build -d -p 127.0.0.1:5672:5672 rabbitmq:3.6-alpine
+ - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD 
 
 script:
  - mvn package
-
-after_sucess:
- - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD 
  - ./push-images.sh

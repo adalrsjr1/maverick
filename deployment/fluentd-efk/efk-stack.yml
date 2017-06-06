@@ -1,0 +1,57 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.1
+    environment:
+      - cluster.name=docker-cluster
+      #- bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.3.2
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    environment:
+      SERVER_NAME: kibana.maverick.org
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_PASSWORD: changeme
+      ELASTICSEARCH_USERNAME: elastic
+
+  fluent:
+    image: adalrsjr1/fluentd-efk
+    ports:
+      - "9880:9880"
+      - "24224:24224"
+      - "24220:24220"
+    depends_on:
+      - elasticsearch
+      - rabbitmq
+    environment:
+      - RABBITMQ=rabbitmq
+      - ELASTIC_SEARCH=elasticsearch
+  rabbitmq:
+    image: rabbitmq:3.6-management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes:
+  esdata1:
+    driver: local

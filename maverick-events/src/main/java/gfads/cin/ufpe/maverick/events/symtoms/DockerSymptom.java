@@ -141,4 +141,9 @@ public class DockerSymptom extends MaverickEvent implements IMaverickSymptom {
 	public IMaverickSymptom getEmpty() {
 		return EMPTY_DOCKER_SYMPTOM;
 	}
+
+	@Override
+	public String getCorrelationId() {
+		return getContainerId();
+	}
 }

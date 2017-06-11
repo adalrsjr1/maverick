@@ -135,4 +135,9 @@ class HttpSockShopSymptom extends MaverickEvent implements IMaverickSymptom {
 						  .toString()
 		
 	}
+
+	@Override
+	public String getCorrelationId() {
+		return symptom.getContainerId();
+	}
 }

@@ -171,4 +171,9 @@ class SpringBootSymptom extends MaverickEvent implements IMaverickSymptom {
 				   .add("springBootLogMessage", springBootLogMessage)
 				   .toString()
 	}
+
+	@Override
+	public String getCorrelationId() {
+		return symptom.getCorrelationId();
+	}
 }

@@ -25,6 +25,7 @@
 		<module>./maverick-planner-mongo</module>
 		<module>./maverick-executor</module>
 		<module>./maverick-analyzer-tutorial</module>
+		<module>./maverick-analyzer-temporal</module>
 		<module>./maverick-analyzer-sockshop-responsetime</module>
 	</modules>
 </project>

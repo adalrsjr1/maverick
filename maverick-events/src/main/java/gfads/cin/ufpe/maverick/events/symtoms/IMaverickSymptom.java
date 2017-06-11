@@ -33,6 +33,8 @@ public interface IMaverickSymptom {
 
 	Object getLogMessage();
 	
+	String getCorrelationId();
+	
 	IMaverickSymptom getEmpty();
 	
 }

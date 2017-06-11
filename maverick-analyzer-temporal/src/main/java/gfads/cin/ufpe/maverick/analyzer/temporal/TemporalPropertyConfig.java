@@ -30,6 +30,7 @@ public class TemporalPropertyConfig {
 		try {
 			cls = (Class<? extends TransitionChecker>) classLoader.loadClass(pkgName + clazz);
 			checker = cls.newInstance();
+			LOG.info("Checker {} intantiated", checker);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

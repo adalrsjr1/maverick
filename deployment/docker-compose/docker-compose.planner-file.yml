@@ -12,7 +12,8 @@ services:
       - planner
     command:
       ["--spring.rabbitmq.host=rabbitmq",
-       "--executor.actions.repository=src/main/resources/actions",
+       "--maverick.adatptation.actions.repository=src/main/resources/actions",
+       "--maverick.adaptation.queue=adaptation"
        "-Xms=64m",
        "-Xmx128m",
        "-XX:PermSize=32m",
@@ -29,6 +30,8 @@ services:
       - rabbitmq
     command:
        ["--spring.rabbitmq.host=rabbitmq",
+       "--maverick.planner.incomming.queue=planner",
+       "--maverick.planner.adaptation.queue=adaptation",
        "-Xms=64m",
        "-Xmx=128m",
        "-XX:PermSize=32m",

@@ -11,6 +11,8 @@ public class TemporalApp {
 	 * --maverick.property.name=<property name>
 	 * --maverick.property.checker=<cheker name PascalCase>
 	 * --maverick.property.ltl=<ltl property>
+	 * --maverick.analyzer.incoming.exchange=<fluentd.fanout>
+	 * --maverick.analyzer.outgoing.queue=<planner.queue>
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(TemporalApp.class, args);

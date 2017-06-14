@@ -12,6 +12,8 @@ services:
     command:
       ["--spring.rabbitmq.host=rabbitmq",
        "--maverick.property.name=sockshop-responsetime",
+       "--maverick.analyzer.incoming.exchange=fluentd.fanout",
+	     "--maverick.analyzer.outgoing.queue=planner",
        "--maverick.property.offset=5",
        "-Xms=64m",
        "-Xmx=128m",

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class ExecutorConfig {
 
 	@Bean
-	public String actionsRepository(@Value("${executor.actions.repository}") String path) {
+	public String actionsRepository(@Value("${maverick.adaptation.actions.repository}") String path) {
 		return path;
 	}
 }

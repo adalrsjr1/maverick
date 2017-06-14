@@ -9,7 +9,8 @@ public class App {
 	 * --spring.rabbitmq.host=<rabbitmq address> 
 	 * --maverick.property.name=<property name> // sockshop-responsetime
 	 * --maverick.property.offset=<responsetime offset>
-	 * --spring.profiles.active=work-queues,sender
+	 * --maverick.analyzer.incoming.exchange=<fluentd.fanout>
+	 * --maverick.analyzer.outgoing.queue=<planner.queue>
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);

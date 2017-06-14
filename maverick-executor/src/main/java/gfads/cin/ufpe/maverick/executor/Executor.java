@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Executor {
 	/*
 	 * --spring.rabbitmq.host=198.162.52.145
-	 * --executor.actions.repository=src/main/resources/actions
+	 * --maverick.adaptation.actions.repository=src/main/resources/actions
+	 * --maverick.adaptation.queue=<queuename>
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Executor.class, args);

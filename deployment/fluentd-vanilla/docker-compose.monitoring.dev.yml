@@ -1,0 +1,52 @@
+version: '3'
+services:
+  fluentd:
+    image: test/fluentd
+    networks:
+      - maverick
+      - maverick-logging
+    depends_on:
+      - rabbitmq
+    ports:
+      - "9880:9880"
+      - "24224:24224"
+      - "24220:24220"
+    environment:
+      - RABBITMQ_SOURCE=rabbitmq
+      - RABBITMQ_MATCHER=rabbitmq
+      - FLUENTD_RABBITMQ_SOURCE_KEY=maverick.monitor
+      - FLUENTD_RABBITMQ_SOURCE_TAG_KEY=true # true:SOURCE_QUEUE or Routing key in message;false:KEY;
+      - FLUENTD_RABBITMQ_MAVERICK_SOURCE_TAG=maverick.monitor #fluentd log tag
+      - FLUENTD_RABBITMQ_MAVERICK_SOURCE_QUEUE=maverick.monitor
+      - FLUENTD_RABBITMQ_MAVERICK_SOURCE_EXCHANGE=maverick.monitor.source
+      - FLUENTD_RABBITMQ_MAVERICK_MATCHER_KEY=maverick.monitor #fluentd log tag
+      - FLUENTD_RABBITMQ_MAVERICK_MATCHER_TAG_KEY=true 
+      - FLUENTD_RABBITMQ_MAVERICK_MATCHER_EXCHANGE=maverick.monitor.matcher
+      - FLUENTD_RABBITMQ_MAVERICK_MATCHER_EXCHANGE_TYPE=fanout
+      - FLUENTD_RABBITMQ_MAVERICK_MATCHER_CONTENT_TYPE=application/json #application/octec for binary
+      - FLUENTD_RABBITMQ_DOCKER_MATCHER_KEY=maverick.docker #fluentd log tag
+      - FLUENTD_RABBITMQ_DOCKER_MATCHER_TAG_KEY=true 
+      - FLUENTD_RABBITMQ_DOCKER_MATCHER_EXCHANGE=maverick.docker.matcher
+      - FLUENTD_RABBITMQ_DOCKER_MATCHER_EXCHANGE_TYPE=fanout
+      - FLUENTD_RABBITMQ_DOCKER_MATCHER_CONTENT_TYPE=application/json #application/octec for binary
+  rabbitmq:
+    image: rabbitmq:3.6-management-alpine
+    hostname: rabbitmq
+    networks:
+      - maverick
+      - maverick-logging
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+#volumes:
+#  data-volume:
+#    driver: local
+#  esdata1:
+#    driver: local
+
+networks:
+  maverick:
+    driver: overlay
+  maverick-logging:
+    driver: overlay

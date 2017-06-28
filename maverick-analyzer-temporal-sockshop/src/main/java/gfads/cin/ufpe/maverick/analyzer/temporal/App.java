@@ -15,6 +15,8 @@ public class App {
 	 * --maverick.analyzer.outgoing.queue=<planner.queue>
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(TemporalApp.class, args);
+		//TODO: it is necessary check this 
+		// SpringApplication.run(TemporalApp.class, args);
+		SpringApplication.run(App.class, args);
 	}
 }

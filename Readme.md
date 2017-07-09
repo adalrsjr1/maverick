@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/adalrsjr1/maverick.svg?branch=master)](https://travis-ci.org/adalrsjr1/maverick)
 
-![Maverick design overview. A microservice-based application  is formed by several microservices, represented by hexagons, distributed across several hosts.](https://raw.githubusercontent.com/adalrsjr1/maverick/master/maverick-arch.pdf)
+![Maverick design overview. A microservice-based application  is formed by several microservices, represented by hexagons, distributed across several hosts.](maverick-arch.png)
 
 # Maverick Design
 

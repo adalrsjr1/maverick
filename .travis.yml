@@ -18,7 +18,7 @@ before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update
   - sudo apt-get upgrade libltdl7 -y
-  - sudo apt-get -f install libspot0 libspotltsmin0 libltdl7 spot libspot-dev -y --allow-unauthenticated
+  - sudo apt-get -f install spot=2.3.1.0-1 libspot-dev=2.3.1.0-1 -y --allow-unauthenticated
   - docker run --name mongo-build -d -p 127.0.0.1:27017:27017 mongo
   - docker run --name rabbitmq-build -d -p 127.0.0.1:5672:5672 rabbitmq:3.6-alpine
   - docker login -u=$DOCKER_USER -p=$DOCKER_PASSWD 

@@ -5,7 +5,7 @@ To create a new Processing Unit
 1. Execute the following script into the project maverick-analyzer-tutorial
 
 ~~~
-$ manage-analyzer.sh <create> <name of the new project | property's name>
+$ manage-analyzer.sh create <name of the new project | property's name>
 ~~~
 
 This script will generate a new project named
@@ -22,8 +22,8 @@ maverick-analyzer-<name>
   	Property.sendChangeRequest(changeRequest)
   ~~~
     
-3. to delete a Processing Unit project, execute the script in folder maverick-analyzer-mock 
+3. to delete a Processing Unit project, execute the script in folder maverick-analyzer-tutorial
 
 ~~~
-create-new-analyzer.sh <remove> <name of property>
+$ manage-analyzer.sh remove <name of property>
 ~~~

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  fluentd:
+    image: adalrsjr1/fluentd
+    networks:
+      - maverick
+      - maverick-logging
+    depends_on:
+      - rabbitmq
+    ports:
+      - "9880:9880"
+      - "24224:24224"
+      - "24220:24220"
+    environment:
+      - RABBITMQ=rabbitmq
+  rabbitmq:
+    image: rabbitmq:3.6-management
+    hostname: rabbitmq
+    networks:
+      - maverick
+      - maverick-logging
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes:
+  data-volume:
+    driver: local
+  esdata1:
+    driver: local
+
+networks:
+  maverick:
+    driver: overlay
+  maverick-logging:
+    driver: overlay

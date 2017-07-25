@@ -14,7 +14,7 @@ services:
     environment:
       - RABBITMQ=rabbitmq
   rabbitmq:
-    image: rabbitmq:3.6-management
+    image: rabbitmq:3.6-management-alpine
     hostname: rabbitmq
     networks:
       - maverick
